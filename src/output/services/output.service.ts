@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
 import { GameEvents } from '@game/enums/game.enums';
-import { Game } from '@game/game';
+import { Game } from '@game/core/game';
 
 @Injectable()
 export class OutputService {

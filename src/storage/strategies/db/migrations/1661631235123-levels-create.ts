@@ -1,9 +1,5 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-const GAMES_TABLE_NAME = 'games';
-const TABLE_NAME = 'levels';
-const LEVEL_ROOMS_TABLE_NAME = 'level_rooms';
-
 export class LevelsCreate1661631235123 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
@@ -40,5 +36,6 @@ export class LevelsCreate1661631235123 implements MigrationInterface {
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.dropTable('levels', true);
+    await queryRunner.dropTable('level_rooms', true);
   }
 }

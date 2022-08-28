@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { GameCommand } from '@app/commands/game.command';
+import { GameCommand } from '@app/../game/commands/game.command';
 import { WinstonModule } from 'nest-winston';
 import { winstonLoggerConfig } from '@loggers/winston/winston.logger.config';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { GameModule } from '@game/game.module';
 import { OutputModule } from '@output/output.module';
 import { ContextModule } from '@context/context.module';
-import { GameQuestions } from '@app/interactive/game.question';
+import { GameQuestions } from '@app/../game/interactive/game.question';
 
 @Module({
   imports: [
@@ -26,6 +26,5 @@ import { GameQuestions } from '@app/interactive/game.question';
     OutputModule,
     ContextModule,
   ],
-  providers: [GameCommand, GameQuestions],
 })
 export class AppModule {}

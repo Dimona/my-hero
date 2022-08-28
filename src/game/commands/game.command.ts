@@ -1,7 +1,7 @@
 import { Command, CommandRunner, InquirerService } from 'nest-commander';
 import { Logger } from '@nestjs/common';
 import { GameService } from '@game/services/game.service';
-import { GAME } from '@app/constants/app.constants';
+import { GAME } from "@game/constants/game.constants";
 
 @Command({
   name: GAME,

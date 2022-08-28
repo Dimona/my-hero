@@ -1,4 +1,4 @@
-import { Game } from '@game/game';
+import { Game } from '@game/core/game';
 import { IStorage, IStorageStrategy } from '../interfaces/storage.interfaces';
 import { Uuid } from '@game/types/game.types';
 import { GameSnapshot } from '@storage/types/storage.types';

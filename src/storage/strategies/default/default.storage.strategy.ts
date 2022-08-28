@@ -1,4 +1,4 @@
-import { Game } from '@game/game';
+import { Game } from '@game/core/game';
 import { Injectable } from '@nestjs/common';
 import { IStorageStrategy } from '@storage/interfaces/storage.interfaces';
 import { StorageStrategyType } from '@storage/enums/storage.enums';

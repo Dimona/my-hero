@@ -1,5 +1,5 @@
 import { Question, QuestionSet } from 'nest-commander';
-import { GAME } from '@app/constants/app.constants';
+import { GAME } from "@game/constants/game.constants";
 
 @QuestionSet({ name: GAME })
 export class GameQuestions {

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { Game } from '@game/game';
+import { Game } from '@game/core/game';
 import { GameEvents } from '../enums/game.enums';
 import { Uuid } from '@game/types/game.types';
 import { InjectStorage } from '@storage/decorators/storage.inject.decorator';

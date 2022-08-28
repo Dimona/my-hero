@@ -1,4 +1,4 @@
-import { Game } from '@game/game';
+import { Game } from '@game/core/game';
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { GameEntity } from '@db-storage/entities/game.entity';

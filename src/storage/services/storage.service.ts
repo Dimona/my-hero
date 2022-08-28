@@ -3,7 +3,7 @@ import { EventEmitter2, OnEvent } from '@nestjs/event-emitter';
 import { GameEvents } from '@game/enums/game.enums';
 import { InjectStorage } from '@storage/decorators/storage.inject.decorator';
 import { Storage } from '@storage/core/storage';
-import { Game } from '@game/game';
+import { Game } from '@game/core/game';
 
 @Injectable()
 export class StorageService {
