@@ -16,21 +16,24 @@ module.exports = {
     node: true,
     jest: true,
   },
-  ignorePatterns: ['.eslintrc.js'],
   rules: {
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/interface-name-prefix': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/no-useless-constructor': 'off',
     'no-prototype-builtins': 'off',
+    'no-plusplus': 'off',
+    'no-case-declarations': 'off',
     'no-restricted-syntax': ['error', "BinaryExpression[operator='of']"],
     '@typescript-eslint/no-explicit-any': 'off',
     'import/prefer-default-export': 'off',
     'class-methods-use-this': 'off',
     'import/no-cycle': 'off',
     'no-await-in-loop': 'off',
+    "@typescript-eslint/no-unused-vars": 'off',
     'no-param-reassign': ['error', { props: false }],
     'prettier/prettier': ['error', prettierOptions],
+    'prefer-destructuring': ['error', { 'object': true, 'array': false }],
     'prefer-const': [
       'error',
       {
@@ -38,4 +41,5 @@ module.exports = {
       },
     ],
   },
+  ignorePatterns: ['.eslintrc.js'],
 };
