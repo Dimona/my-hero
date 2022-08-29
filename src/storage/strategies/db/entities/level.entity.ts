@@ -1,10 +1,10 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
-import { GameEntity } from '@db-storage/entities/game.entity';
+import { Column, CreateDateColumn, Entity, JoinColumn, OneToMany, PrimaryColumn } from 'typeorm';
+import { LevelRoomEntity } from '@db-storage/entities/level-room.entity';
 
 @Entity({ name: 'levels' })
 export class LevelEntity {
-  @PrimaryColumn({ type: 'integer', nullable: false })
-  id: number;
+  @PrimaryColumn({ type: 'varchar', length: 100, nullable: false })
+  id: string;
 
   @Column({ type: 'varchar', length: 100, default: 'Scary level', nullable: false })
   name: string;
@@ -15,7 +15,7 @@ export class LevelEntity {
   @Column({ type: 'varchar', length: 100, nullable: false })
   game_id: string;
 
-  @OneToOne(() => GameEntity)
-  @JoinColumn({ name: 'game_id', referencedColumnName: 'id', foreignKeyConstraintName: 'levels_game_id_fk' })
-  game: GameEntity;
+  @OneToMany(() => LevelRoomEntity, levelRoom => levelRoom.level, { cascade: true })
+  @JoinColumn({ name: 'id', referencedColumnName: 'level_id' })
+  rooms?: LevelRoomEntity[];
 }

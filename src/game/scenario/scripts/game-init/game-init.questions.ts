@@ -25,7 +25,6 @@ export class GameInitQuestions {
     name: GAME_INIT,
   })
   parseInit(value: boolean): boolean {
-    console.log('parseInit', value);
     return value;
   }
 

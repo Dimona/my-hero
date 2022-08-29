@@ -1,4 +1,4 @@
-export enum PlayerEvents {
-  UPSERTED = 'UPSERTED',
-  RESTORED = 'RESTORED',
+export enum PlayerEvent {
+  UPSERTED = 'player.upserted',
+  RESTORED = 'player.restored',
 }

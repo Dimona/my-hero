@@ -1,9 +1,8 @@
 import { Game } from '@game/core/game';
 import { IStorage, IStorageStrategy } from '../interfaces/storage.interfaces';
 import { Uuid } from '@game/types/game.types';
-import { GameSnapshot } from '@storage/types/storage.types';
-import { PlayerSnapshot } from '@game/player/types/player.types';
 import { Player } from '@game/player/core/player';
+import { Snapshot } from '@storage/types/storage.types';
 
 export class Storage implements IStorage {
   constructor(private readonly strategy: IStorageStrategy) {}
@@ -12,7 +11,7 @@ export class Storage implements IStorage {
     return this.strategy.saveGame(game);
   }
 
-  restoreGame(uuid: Uuid): Promise<GameSnapshot> {
+  restoreGame(uuid: Uuid): Promise<Snapshot.Game> {
     return this.strategy.restoreGame(uuid);
   }
 
@@ -20,7 +19,7 @@ export class Storage implements IStorage {
     return this.strategy.savePlayer(player);
   }
 
-  getPlayer(uuid: Uuid): Promise<PlayerSnapshot> {
+  getPlayer(uuid: Uuid): Promise<Snapshot.Player> {
     return this.strategy.getPlayer(uuid);
   }
 }

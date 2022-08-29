@@ -8,12 +8,13 @@ import { DbStorageStrategy } from '@db-storage/db.storage.strategy';
 import { DbModule } from '@db-storage/module/db.module';
 import { LevelEntity } from '@db-storage/entities/level.entity';
 import { PlayerEntity } from '@db-storage/entities/player.entity';
+import { LevelRoomEntity } from '@db-storage/entities/level-room.entity';
 
 export class DbStorageDynamicModuleFactory {
   static create(): DynamicModule {
     const imports = [];
     const providers: Provider[] = [];
-    imports.push(DbModule, TypeOrmModule.forFeature([GameEntity, LevelEntity, PlayerEntity]));
+    imports.push(DbModule, TypeOrmModule.forFeature([GameEntity, LevelEntity, PlayerEntity, LevelRoomEntity]));
     providers.push(DbStorageStrategy);
     providers.push({
       provide: GAME_STORAGE,

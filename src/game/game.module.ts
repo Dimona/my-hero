@@ -10,6 +10,7 @@ import { GameInitScript } from '@game/scenario/scripts/game-init/game-init.scrip
 import { GameInitQuestions } from '@game/scenario/scripts/game-init/game-init.questions';
 import { SCENARIO } from '@game/scenario/constants/scenario.constants';
 import { ScriptCollection } from '@game/scenario/core/script.collection';
+import { LevelService } from '@game/level/services/level.service';
 
 @Module({
   imports: [StorageModule.register(DbStorageStrategy)],
@@ -23,12 +24,14 @@ import { ScriptCollection } from '@game/scenario/core/script.collection';
     GameService,
     GameInitScript,
     GameInitQuestions,
+    // Level
+    LevelService,
     // Scenario
     {
       provide: SCENARIO,
-      useFactory(playerScript: PlayerScript, gameStartScript: GameInitScript) {
+      useFactory(playerScript: PlayerScript, gameInitScript: GameInitScript) {
         const scenario = new ScriptCollection();
-        scenario.addScript(playerScript).addScript(gameStartScript);
+        scenario.addScript(playerScript).addScript(gameInitScript);
 
         return scenario;
       },

@@ -16,7 +16,7 @@ export class GameEntity {
   @Column({ type: 'timestamp without time zone', nullable: true })
   finished_at?: Date;
 
-  @OneToOne(() => LevelEntity, { eager: true })
+  @OneToOne(() => LevelEntity, { eager: true, cascade: true })
   @JoinColumn({ name: 'id', referencedColumnName: 'game_id' })
   level: LevelEntity;
 }

@@ -6,11 +6,12 @@ import { Repository } from 'typeorm';
 import { IStorageStrategy } from '@storage/interfaces/storage.interfaces';
 import { StorageStrategyType } from '@storage/enums/storage.enums';
 import { Uuid } from '@game/types/game.types';
-import { GameSnapshot } from '@storage/types/storage.types';
 import { StorageGameNotFoundError } from '@storage/errors/storage.game.not-found.error';
-import { PlayerSnapshot } from '@game/player/types/player.types';
 import { PlayerEntity } from '@db-storage/entities/player.entity';
 import { Player } from '@game/player/core/player';
+import { Snapshot } from '@storage/types/storage.types';
+import { LevelEntity } from '@db-storage/entities/level.entity';
+import { LevelRoomEntity } from '@db-storage/entities/level-room.entity';
 
 @Injectable()
 export class DbStorageStrategy implements IStorageStrategy {
@@ -22,22 +23,65 @@ export class DbStorageStrategy implements IStorageStrategy {
   ) {}
 
   async saveGame(game: Game): Promise<void> {
-    const entity = new GameEntity();
-    entity.status = game.getStatus();
-    entity.id = game.getUuid();
-    entity.started_at = game.getStartedAt();
+    const gameEntity = new GameEntity();
+    gameEntity.status = game.getStatus();
+    gameEntity.id = game.getUuid();
+    gameEntity.started_at = game.getStartedAt();
+    const level = game.getLevel();
+    if (level) {
+      const levelEntity = new LevelEntity();
+      levelEntity.id = level.getUuid();
+      levelEntity.name = level.getName();
+      levelEntity.game_id = game.getUuid();
+      const rooms = [];
+      for (const [[x, y], room] of level.getRooms() || []) {
+        const levelRoomEntity = new LevelRoomEntity();
+        levelRoomEntity.id = room.uuid;
+        levelRoomEntity.x = x;
+        levelRoomEntity.y = y;
+        levelRoomEntity.left_wall = room.walls.left;
+        levelRoomEntity.top_wall = room.walls.top;
+        levelRoomEntity.right_wall = room.walls.right;
+        levelRoomEntity.bottom_wall = room.walls.bottom;
+        rooms.push(levelRoomEntity);
+      }
+      levelEntity.rooms = rooms;
+      gameEntity.level = levelEntity;
+    }
+    console.log(gameEntity);
 
-    await this.gameRepository.save(entity);
+    await this.gameRepository.save(gameEntity);
   }
 
-  async restoreGame(uuid: Uuid): Promise<GameSnapshot> {
+  async restoreGame(uuid: Uuid): Promise<Snapshot.Game> {
     try {
-      const game = await this.gameRepository.findOneByOrFail({ id: uuid });
+      const game = await this.gameRepository.findOneOrFail({
+        where: { id: uuid },
+        relations: ['level', 'level.rooms'],
+      });
 
       return {
         uuid: game.id,
         startedAt: game.started_at,
         status: game.status,
+        level: game.level
+          ? {
+              uuid: game.level.id,
+              name: game.level.name,
+              createdAt: game.level.created_at,
+              rooms: game.level.rooms.map(room => ({
+                uuid: room.id,
+                x: room.x,
+                y: room.y,
+                walls: {
+                  left: room.left_wall,
+                  top: room.top_wall,
+                  right: room.right_wall,
+                  bottom: room.bottom_wall,
+                },
+              })),
+            }
+          : null,
       };
     } catch (err) {
       Logger.error(err.message);
@@ -54,7 +98,7 @@ export class DbStorageStrategy implements IStorageStrategy {
     await this.playerRepository.save(entity);
   }
 
-  async getPlayer(uuid: Uuid): Promise<PlayerSnapshot | null> {
+  async getPlayer(uuid: Uuid): Promise<Snapshot.Player | null> {
     const player = await this.playerRepository.findOneBy({ id: uuid });
 
     if (!player) {
