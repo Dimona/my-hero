@@ -25,7 +25,7 @@ export class DefaultStorageStrategy implements IStorageStrategy {
     // Do nothing
   }
 
-  getPlayer(uuid: Uuid): Promise<PlayerSnapshot> {
+  getPlayer(uuid: Uuid): Promise<PlayerSnapshot | null> {
     return null;
   }
 }

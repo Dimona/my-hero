@@ -14,7 +14,7 @@ export class LevelsCreate1661631235123 implements MigrationInterface {
     await queryRunner.query(`
         alter table levels
             add constraint levels_game_id_fk
-                foreign key (game_id) references games (uuid) on delete cascade;
+                foreign key (game_id) references games (id) on delete cascade;
     `);
     await queryRunner.query(`
         create table if not exists level_rooms

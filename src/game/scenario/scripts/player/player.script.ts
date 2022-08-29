@@ -27,7 +27,6 @@ export class PlayerScript implements IScript {
     const { playerName } = await this.inquirer.ask<{ playerName: string }>(PLAYER_QUESTION_SET, {
       playerName: undefined,
     });
-    // console.log(name);
     const player = await this.playerService.create(playerName);
 
     Logger.verbose(

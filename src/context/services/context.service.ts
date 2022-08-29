@@ -16,6 +16,11 @@ export class ContextService {
   }
 
   @OnEvent(PlayerEvents.RESTORED, { async: false })
+  async handlePlayerRestored(payload: Player): Promise<void> {
+    console.log('handlePlayerRestored');
+    this.context.set('player', payload);
+  }
+
   @OnEvent(PlayerEvents.UPSERTED, { async: false })
   async handlePlayerUpserted(payload: Player): Promise<void> {
     console.log('handlePlayerUpserted');

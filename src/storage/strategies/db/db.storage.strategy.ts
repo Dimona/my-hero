@@ -54,8 +54,12 @@ export class DbStorageStrategy implements IStorageStrategy {
     await this.playerRepository.save(entity);
   }
 
-  async getPlayer(uuid: Uuid): Promise<PlayerSnapshot> {
+  async getPlayer(uuid: Uuid): Promise<PlayerSnapshot | null> {
     const player = await this.playerRepository.findOneBy({ id: uuid });
+
+    if (!player) {
+      return null;
+    }
 
     return { uuid: player.id, activeGameId: player.active_game_id, name: player.name };
   }
