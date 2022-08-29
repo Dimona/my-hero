@@ -1,3 +1,7 @@
+import { Game } from '@game/core/game';
+import { Player } from '@game/player/core/player';
+
 export type ContextStorage = {
-  gameId: string;
-}
+  game?: Game;
+  player?: Player;
+};

@@ -2,6 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
 import { GameEvents } from '@game/enums/game.enums';
 import { Game } from '@game/core/game';
+import { StorageEvents } from '@storage/enums/storage.enums';
 
 @Injectable()
 export class OutputService {
@@ -17,8 +18,8 @@ export class OutputService {
     this.logger.verbose(`Game was successfully restored, ID: ${payload.getUuid()}`);
   }
 
-  @OnEvent(GameEvents.SAVED, { async: false })
-  handleGameSaved() {
-    this.logger.verbose(`Game was successfully saved`);
+  @OnEvent(StorageEvents.SAVED, { async: false })
+  handleGameSaved(payload: string) {
+    this.logger.verbose(`${payload} was successfully saved`);
   }
 }

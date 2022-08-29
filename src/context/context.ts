@@ -1,4 +1,4 @@
-import { ContextAbstract } from '@context/core/context';
+import { ContextAbstract } from '@context/core/context.abstract';
 import { ContextStorage } from '@context/types/context.types';
 import { Injectable } from '@nestjs/common';
 

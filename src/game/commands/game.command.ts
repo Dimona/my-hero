@@ -1,28 +1,33 @@
 import { Command, CommandRunner, InquirerService } from 'nest-commander';
 import { Logger } from '@nestjs/common';
 import { GameService } from '@game/services/game.service';
-import { GAME } from "@game/constants/game.constants";
+import { GAME } from '@game/constants/game.constants';
+import { InjectScenario } from '@game/scenario/decorators/scenario.inject.decorator';
+import { ScriptCollection } from '@game/scenario/core/script.collection';
 
 @Command({
   name: GAME,
-  description: 'initiate new game',
+  description: 'launch MyHero game',
   options: { isDefault: true },
 })
 export class GameCommand extends CommandRunner {
-  constructor(private readonly gameService: GameService, private readonly inquirer: InquirerService) {
+  constructor(@InjectScenario() private readonly scenario: ScriptCollection) {
     super();
   }
 
   async run(): Promise<void> {
     try {
-      Logger.verbose('Hello This is MyHero game');
+      Logger.verbose('****************************** MY HERO ******************************');
 
-      const { promptedStart } = await this.inquirer.ask<{ promptedStart: boolean }>(GAME, { promptedStart: undefined });
-      if (!promptedStart) {
-        Logger.verbose('GoodBy');
-        return;
+      const iterator = this.scenario.getIterator();
+      while (iterator.valid()) {
+        const script = iterator.current();
+
+        await script.run();
+        iterator.next();
       }
-      await this.gameService.restore('8a1388ad-d2a4-468f-bc95-91c7fae699d8');
+
+      Logger.verbose('****************************** THE END ******************************');
     } catch (err) {
       Logger.error(err);
       // eslint-disable-next-line no-console

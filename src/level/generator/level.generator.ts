@@ -1,6 +1,6 @@
-import { Utils } from '@utils/utils';
 import { DEFAULT_LEVEL_HEIGHT, DEFAULT_LEVEL_WIDTH } from '@level/constants/level.constants';
 import { Level } from '@level/types/level.types';
+import { Utils } from '@common/utils';
 
 export class LevelGenerator {
   static generate({

@@ -5,8 +5,8 @@ import { IContext } from '../interfaces/context.interfaces';
 export abstract class ContextAbstract<Storage> implements IContext<Storage> {
   private storage: Partial<Storage> = {};
 
-  get<T = any>(path: string): T {
-    return get(this.storage, path);
+  get<T = any>(path: string, defaultValue?: T): T {
+    return get(this.storage, path, defaultValue);
   }
 
   set<V = any>(path: string, value: V): this {

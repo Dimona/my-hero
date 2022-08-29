@@ -8,12 +8,18 @@ import { StorageStrategyType } from '@storage/enums/storage.enums';
 import { Uuid } from '@game/types/game.types';
 import { GameSnapshot } from '@storage/types/storage.types';
 import { StorageGameNotFoundError } from '@storage/errors/storage.game.not-found.error';
+import { PlayerSnapshot } from '@game/player/types/player.types';
+import { PlayerEntity } from '@db-storage/entities/player.entity';
+import { Player } from '@game/player/core/player';
 
 @Injectable()
 export class DbStorageStrategy implements IStorageStrategy {
   static readonly type = StorageStrategyType.DB;
 
-  constructor(@InjectRepository(GameEntity) private readonly gameEntityRepository: Repository<GameEntity>) {}
+  constructor(
+    @InjectRepository(GameEntity) private readonly gameRepository: Repository<GameEntity>,
+    @InjectRepository(PlayerEntity) private readonly playerRepository: Repository<PlayerEntity>,
+  ) {}
 
   async saveGame(game: Game): Promise<void> {
     const entity = new GameEntity();
@@ -21,12 +27,12 @@ export class DbStorageStrategy implements IStorageStrategy {
     entity.id = game.getUuid();
     entity.started_at = game.getStartedAt();
 
-    await this.gameEntityRepository.save(entity);
+    await this.gameRepository.save(entity);
   }
 
   async restoreGame(uuid: Uuid): Promise<GameSnapshot> {
     try {
-      const game = await this.gameEntityRepository.findOneOrFail({ where: { id: uuid } });
+      const game = await this.gameRepository.findOneByOrFail({ id: uuid });
 
       return {
         uuid: game.id,
@@ -37,5 +43,20 @@ export class DbStorageStrategy implements IStorageStrategy {
       Logger.error(err.message);
       throw new StorageGameNotFoundError();
     }
+  }
+
+  async savePlayer(player: Player): Promise<void> {
+    const entity = new PlayerEntity();
+    entity.id = player.getUuid();
+    entity.name = player.getName();
+    entity.active_game_id = player.getActiveGameId();
+
+    await this.playerRepository.save(entity);
+  }
+
+  async getPlayer(uuid: Uuid): Promise<PlayerSnapshot> {
+    const player = await this.playerRepository.findOneBy({ id: uuid });
+
+    return { uuid: player.id, activeGameId: player.active_game_id, name: player.name };
   }
 }
