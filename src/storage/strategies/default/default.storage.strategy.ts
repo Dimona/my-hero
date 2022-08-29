@@ -6,7 +6,7 @@ import { Uuid } from '@game/types/game.types';
 import { GameSnapshot } from '@storage/types/storage.types';
 import { StorageGameNotFoundError } from '@storage/errors/storage.game.not-found.error';
 import { PlayerSnapshot } from '@game/player/types/player.types';
-import { Player } from "@game/player/core/player";
+import { Player } from '@game/player/core/player';
 
 @Injectable()
 export class DefaultStorageStrategy implements IStorageStrategy {

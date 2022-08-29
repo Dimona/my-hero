@@ -6,8 +6,8 @@ import { Storage } from '@storage/core/storage';
 import { Game } from '@game/core/game';
 import { PlayerEvents } from '@game/player/enums/player.enums';
 import { PlayerSnapshot } from '@game/player/types/player.types';
-import { StorageEvents } from "@storage/enums/storage.enums";
-import { Player } from "@game/player/core/player";
+import { StorageEvents } from '@storage/enums/storage.enums';
+import { Player } from '@game/player/core/player';
 
 @Injectable()
 export class StorageService {

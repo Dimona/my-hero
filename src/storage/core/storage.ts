@@ -3,7 +3,7 @@ import { IStorage, IStorageStrategy } from '../interfaces/storage.interfaces';
 import { Uuid } from '@game/types/game.types';
 import { GameSnapshot } from '@storage/types/storage.types';
 import { PlayerSnapshot } from '@game/player/types/player.types';
-import { Player } from "@game/player/core/player";
+import { Player } from '@game/player/core/player';
 
 export class Storage implements IStorage {
   constructor(private readonly strategy: IStorageStrategy) {}
