@@ -1,9 +1,9 @@
 import { DynamicModule, Module } from '@nestjs/common';
-import { StorageStrategyType } from '@storage/enums/storage.enums';
-import { DbStorageDynamicModuleFactory } from '@db-storage/factories/db.storage.module.factory';
-import { StorageService } from '@storage/services/storage.service';
-import { StorageStrategyTyped } from './types/storage.types';
-import { DefaultStorageDynamicModuleFactory } from '@storage/strategies/default/factories/default.storage.module.factory';
+import { StorageStrategyType } from '@storage/storage.enums';
+import { DbStorageDynamicModuleFactory } from '@db-storage/db.storage.module.factory';
+import { StorageService } from '@storage/storage.service';
+import { StorageStrategyTyped } from './storage.types';
+import { DefaultStorageDynamicModuleFactory } from '@storage/strategies/default/default.storage.module.factory';
 
 @Module({})
 export class StorageModule {

@@ -1,4 +1,4 @@
-import { IScript } from '@game/scenario/interfaces/scenario.interfaces';
+import { IScript } from '@game/scenario/scenario.interfaces';
 import { InquirerService } from 'nest-commander';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { ConfigService } from '@nestjs/config';
@@ -10,9 +10,9 @@ import {
   GameInitValue,
 } from '@game/scenario/scripts/game-init/game-init.questions';
 import { Context } from '@context/context';
-import { GameService } from '@game/services/game.service';
-import { Player } from '@game/player/core/player';
-import { Uuid } from '@game/types/game.types';
+import { GameService } from '@game/game.service';
+import { Player } from '@game/player/player';
+import { Uuid } from '@game/game.types';
 import { GAME_START_QS, GameStartParams, PROMPTED_START } from '@game/scenario/scripts/game-init/game-start.questions';
 import { Graphic } from '@graphics/renderers';
 

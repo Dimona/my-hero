@@ -1,6 +1,6 @@
 import { Global, Module } from '@nestjs/common';
 import { Context } from '@context/context';
-import { ContextService } from '@context/services/context.service';
+import { ContextService } from '@context/context.service';
 
 @Global()
 @Module({

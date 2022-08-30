@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { OutputService } from '@output/services/output.service';
+import { OutputService } from '@output/output.service';
 
 @Module({
   imports: [],

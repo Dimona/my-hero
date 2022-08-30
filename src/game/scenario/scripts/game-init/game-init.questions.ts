@@ -1,6 +1,6 @@
 import { ChoicesFor, Question, QuestionSet } from 'nest-commander';
 import { QuestionList } from '@common/types';
-import { Uuid } from '@game/types/game.types';
+import { Uuid } from '@game/game.types';
 
 export const GAME_INIT_QS = 'game-init.qs';
 

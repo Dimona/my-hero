@@ -1,5 +1,5 @@
 import { StorageError, StorageErrorCode } from '@storage/errors/storage.error';
-import { Uuid } from '@game/types/game.types';
+import { Uuid } from '@game/game.types';
 
 export class StorageGameNotFoundError extends StorageError {
   constructor({ uuid }: { uuid?: Uuid } = {}) {

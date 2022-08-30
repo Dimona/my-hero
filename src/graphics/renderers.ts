@@ -1,7 +1,7 @@
 import { render } from './utils';
 import colors from 'colors';
-import { Level } from '@game/level/core/level';
-import { RoomWalls } from '@game/level/types/level.types';
+import { Level } from '@game/level/level';
+import { RoomWalls } from '@game/level/level.types';
 
 export namespace Graphic {
   export const logo = () =>

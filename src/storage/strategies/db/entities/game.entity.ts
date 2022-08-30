@@ -1,5 +1,5 @@
 import { Column, Entity, OneToOne, PrimaryColumn, JoinColumn } from 'typeorm';
-import { GameStatus } from '@game/enums/game.enums';
+import { GameStatus } from '@game/game.enums';
 import { LevelEntity } from '@db-storage/entities/level.entity';
 
 @Entity({ name: 'games' })

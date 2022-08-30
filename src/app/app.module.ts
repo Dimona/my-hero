@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { WinstonModule } from 'nest-winston';
-import { winstonLoggerConfig } from '@loggers/winston/winston.logger.config';
+import { winstonLoggerConfig } from '../logger/winston/winston.logger.config';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { GameModule } from '@game/game.module';
 import { OutputModule } from '@output/output.module';

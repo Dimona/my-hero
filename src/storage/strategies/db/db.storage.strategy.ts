@@ -1,15 +1,15 @@
-import { Game } from '@game/core/game';
+import { Game } from '@game/game';
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { GameEntity } from '@db-storage/entities/game.entity';
 import { Repository } from 'typeorm';
-import { IStorageStrategy } from '@storage/interfaces/storage.interfaces';
-import { StorageStrategyType } from '@storage/enums/storage.enums';
-import { Uuid } from '@game/types/game.types';
+import { IStorageStrategy } from '@storage/storage.interfaces';
+import { StorageStrategyType } from '@storage/storage.enums';
+import { Uuid } from '@game/game.types';
 import { StorageGameNotFoundError } from '@storage/errors/storage.game.not-found.error';
 import { PlayerEntity } from '@db-storage/entities/player.entity';
-import { Player } from '@game/player/core/player';
-import { Snapshot } from '@storage/types/storage.types';
+import { Player } from '@game/player/player';
+import { Snapshot } from '@storage/storage.types';
 import { LevelEntity } from '@db-storage/entities/level.entity';
 import { LevelRoomEntity } from '@db-storage/entities/level-room.entity';
 

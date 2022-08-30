@@ -1,10 +1,10 @@
-import { IScript } from '@game/scenario/interfaces/scenario.interfaces';
+import { IScript } from '@game/scenario/scenario.interfaces';
 import { InquirerService } from 'nest-commander';
 import { ConfigService } from '@nestjs/config';
 import { PLAYER_QUESTION_SET } from '@game/scenario/scripts/player/player.questions';
 import { Injectable, Logger } from '@nestjs/common';
-import { PlayerService } from '@game/player/services/player.service';
-import { Uuid } from '@game/types/game.types';
+import { PlayerService } from '@game/player/player.service';
+import { Uuid } from '@game/game.types';
 import colors from 'colors';
 
 @Injectable()

@@ -1,5 +1,5 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
-import { GameStatus } from '@game/enums/game.enums';
+import { GameStatus } from '@game/game.enums';
 
 export class GamesCreate1612821117049 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
