@@ -14,7 +14,9 @@ export type RoomWalls = {
 
 export type Room = {
   uuid: Uuid;
+  x: number;
+  y: number;
   walls: RoomWalls;
 };
 
-export type LevelRooms = Map<[number, number], Room>;
+export type LevelRooms = Record<string, Room>;

@@ -34,11 +34,11 @@ export class DbStorageStrategy implements IStorageStrategy {
       levelEntity.name = level.getName();
       levelEntity.game_id = game.getUuid();
       const rooms = [];
-      for (const [[x, y], room] of level.getRooms() || []) {
+      for (const [, room] of Object.entries(level.getRooms() || {})) {
         const levelRoomEntity = new LevelRoomEntity();
         levelRoomEntity.id = room.uuid;
-        levelRoomEntity.x = x;
-        levelRoomEntity.y = y;
+        levelRoomEntity.x = room.x;
+        levelRoomEntity.y = room.y;
         levelRoomEntity.left_wall = room.walls.left;
         levelRoomEntity.top_wall = room.walls.top;
         levelRoomEntity.right_wall = room.walls.right;
@@ -48,7 +48,6 @@ export class DbStorageStrategy implements IStorageStrategy {
       levelEntity.rooms = rooms;
       gameEntity.level = levelEntity;
     }
-    console.log(gameEntity);
 
     await this.gameRepository.save(gameEntity);
   }

@@ -43,7 +43,6 @@ export class PlayerService implements Creatable, Restorable {
 
   @OnEvent(GameEvent.STARTED, { async: false })
   async handleGameStarted(payload: Game): Promise<void> {
-    console.log('handleGameStarted');
     const player = this.context.get<Player>('player');
     player.setActiveGameId(payload.getUuid());
 

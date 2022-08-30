@@ -10,6 +10,7 @@ import { Context } from '@context/context';
 import { LevelEvent } from '@game/level/enums/level.enums';
 import { Snapshot } from '@storage/types/storage.types';
 import { LevelGenerator } from '@game/level/generator/level.generator';
+import { LevelRooms } from '@game/level/types/level.types';
 
 @Injectable()
 export class LevelService implements Creatable, Restorable {
@@ -25,8 +26,23 @@ export class LevelService implements Creatable, Restorable {
     return level;
   }
 
+  restoreRooms(levelSnapshot: Snapshot.Level): LevelRooms {
+    const levelRooms: LevelRooms = {};
+    levelSnapshot.rooms.forEach(roomSnapshot => {
+      levelRooms[`${roomSnapshot.x}|${roomSnapshot.y}`] = {
+        uuid: roomSnapshot.uuid,
+        x: roomSnapshot.x,
+        y: roomSnapshot.y,
+        walls: roomSnapshot.walls,
+      };
+    });
+
+    return levelRooms;
+  }
+
   async restore(game: Game, levelSnapshot: Snapshot.Level): Promise<Level> {
     const level = Level.create({ uuid: levelSnapshot.uuid, name: levelSnapshot.name });
+    level.setRooms(this.restoreRooms(levelSnapshot));
     game.setLevel(level);
 
     await this.eventEmitter.emitAsync(LevelEvent.RESTORED, game);

@@ -14,6 +14,7 @@ import { GameService } from '@game/services/game.service';
 import { Player } from '@game/player/core/player';
 import { Uuid } from '@game/types/game.types';
 import { GAME_START_QS, GameStartParams, PROMPTED_START } from '@game/scenario/scripts/game-init/game-start.questions';
+import { Graphic } from '@graphics/renderers';
 
 @Injectable()
 export class GameInitScript implements IScript {
@@ -43,14 +44,16 @@ export class GameInitScript implements IScript {
 
     switch (gameInit) {
       case GameInitValue.START:
-        await this.gameService.start();
+        const game = await this.gameService.start();
+        Graphic.level(game.getLevel());
         break;
 
       case GameInitValue.RESTORE:
         if (gameId) {
-          const game = await this.gameService.restore(gameId);
+          // eslint-disable-next-line @typescript-eslint/no-shadow
+          let game = await this.gameService.restore(gameId);
           if (!game) {
-            Logger.verbose('Something went wrong during restore');
+            Logger.error('Something went wrong during restore');
 
             const { promptedStart } = await this.inquirer.ask<GameStartParams>(GAME_START_QS, {
               [PROMPTED_START]: undefined,
@@ -59,8 +62,11 @@ export class GameInitScript implements IScript {
               return this.exit();
             }
 
-            await this.gameService.start();
+            game = await this.gameService.start();
+            Graphic.level(game.getLevel());
+            break;
           }
+          Graphic.level(game.getLevel());
         }
         break;
 

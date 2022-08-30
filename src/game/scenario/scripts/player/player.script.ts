@@ -5,6 +5,7 @@ import { PLAYER_QUESTION_SET } from '@game/scenario/scripts/player/player.questi
 import { Injectable, Logger } from '@nestjs/common';
 import { PlayerService } from '@game/player/services/player.service';
 import { Uuid } from '@game/types/game.types';
+import colors from 'colors';
 
 @Injectable()
 export class PlayerScript implements IScript {
@@ -17,10 +18,10 @@ export class PlayerScript implements IScript {
   private async restorePlayer(playerId: Uuid): Promise<void> {
     const player = await this.playerService.restore(playerId);
     const message = player
-      ? `Hello ${player.getName()}`
+      ? `Hello ${colors.bold(colors.green(player.getName()))}`
       : `Player with id '${playerId}' was not found. Please correct or delete your env variable value PLAYER_ID`;
 
-    Logger.verbose(message);
+    Logger.verbose(colors.bold(`${message}\n`), null, { timestamp: false });
   }
 
   private async createPlayer(): Promise<void> {

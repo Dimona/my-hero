@@ -41,7 +41,9 @@
       "@storage/": ["src/storage"],
       "@storage/*": ["src/storage/*"],
       "@db-storage/": ["src/storage/strategies/db"],
-      "@db-storage/*": ["src/storage/strategies/db/*"]
+      "@db-storage/*": ["src/storage/strategies/db/*"],
+      "@graphics/": ["src/graphics"],
+      "@graphics/*": ["src/graphics/*"]
     }
   },
   "exclude": ["node_modules", "dist"]

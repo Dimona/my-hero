@@ -16,6 +16,7 @@ module.exports = options => {
 
   return {
     ...options,
+    devtool: 'source-map',
     entry: {
       ...migrationEntries,
       main: options.entry,

@@ -19,7 +19,7 @@ export class LevelsCreate1661631235123 implements MigrationInterface {
       create table if not exists level_rooms (
         id varchar(100) not null primary key,
         level_id  varchar(100) not null
-          constraint level_rooms_level_id_fk references levels (id),
+          constraint level_rooms_level_id_fk references levels (id) on delete cascade,
         x integer not null,
         y integer not null,
         left_wall boolean default true not null,
