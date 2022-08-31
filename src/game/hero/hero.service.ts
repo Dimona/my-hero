@@ -9,14 +9,11 @@ import { Game } from '@game/game';
 import { Hero } from '@game/hero/hero';
 import { Snapshot } from '@storage/storage.types';
 import { HeroState } from '@game/hero/hero.state';
-import { HeroUtils } from "@game/hero/hero.utils";
+import { HeroUtils } from '@game/hero/hero.utils';
 
 @Injectable()
 export class HeroService implements Creatable, Restorable {
-  constructor(
-    @InjectStorage() private readonly storage: Storage,
-    private readonly eventEmitter: EventEmitter2,
-  ) {}
+  constructor(@InjectStorage() private readonly storage: Storage, private readonly eventEmitter: EventEmitter2) {}
 
   async create(game: Game, name: string, race: Race): Promise<Hero> {
     const hero = Hero.create({ name, race }).setState(HeroState.create());

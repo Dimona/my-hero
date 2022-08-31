@@ -1,5 +1,5 @@
 import { Column, Entity, PrimaryColumn } from 'typeorm';
-import { Uuid } from "@game/game.types";
+import { Uuid } from '@game/game.types';
 
 @Entity({ name: 'players' })
 export class PlayerEntity {

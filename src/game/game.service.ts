@@ -1,4 +1,4 @@
-import { Injectable, Logger } from "@nestjs/common";
+import { Injectable, Logger } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { Game } from '@game/game';
 import { GameEvent, GameStatus } from './game.enums';
@@ -12,8 +12,8 @@ import { HeroService } from '@game/hero/hero.service';
 import { InjectScenario } from '@game/scenario/scenario.inject.decorator';
 import { ScriptCollection } from '@game/scenario/script.collection';
 import { HeroCreateScript } from '@game/scenario/scripts/hero-create/hero-create.script';
-import colors from "colors";
-import { RaceLabel } from "@game/hero/hero.enums";
+import colors from 'colors';
+import { RaceLabel } from '@game/hero/hero.enums';
 
 @Injectable()
 export class GameService implements Restorable {

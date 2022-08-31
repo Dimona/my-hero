@@ -21,5 +21,4 @@ export class HeroCreate1661878157678 implements MigrationInterface {
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.dropTable('heroes', true);
   }
-
 }
