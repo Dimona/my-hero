@@ -14,6 +14,7 @@ import { ScriptCollection } from '@game/scenario/script.collection';
 import { HeroCreateScript } from '@game/scenario/scripts/hero-create/hero-create.script';
 import colors from 'colors';
 import { RaceLabel } from '@game/hero/hero.enums';
+import { Graphic } from "@graphics/renderers";
 
 @Injectable()
 export class GameService implements Restorable {
@@ -55,14 +56,7 @@ export class GameService implements Restorable {
       : await this.levelService.create(game);
 
     if (gameSnapshot.hero) {
-      const hero = await this.heroService.restore(game, gameSnapshot.hero);
-
-      Logger.verbose(
-        `Your hero is ${colors.bold(colors.blue(RaceLabel[hero.getRace()]))} with name ${colors.bold(
-          colors.green(hero.getName()),
-        )}`,
-        { timestamp: false },
-      );
+      await this.heroService.restore(game, gameSnapshot.hero);
     } else {
       this.scenario.addScript(this.heroCreateScript);
     }

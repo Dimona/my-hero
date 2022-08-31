@@ -50,7 +50,6 @@ export class GameInitScript implements IScript {
     switch (gameInit) {
       case GameInitValue.START:
         const game = await this.gameService.start(player);
-        Graphic.level(game.getLevel());
         this.scenario.addScript(this.heroCreateScript);
         break;
 
@@ -69,11 +68,9 @@ export class GameInitScript implements IScript {
             }
 
             game = await this.gameService.start(player);
-            Graphic.level(game.getLevel());
             this.scenario.addScript(this.heroCreateScript);
             break;
           }
-          Graphic.level(game.getLevel());
         }
         break;
 
