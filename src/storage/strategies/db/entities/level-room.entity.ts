@@ -1,13 +1,14 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
 import { LevelEntity } from '@db-storage/entities/level.entity';
+import { Uuid } from '@game/game.types';
 
 @Entity({ name: 'level_rooms' })
 export class LevelRoomEntity {
   @PrimaryColumn({ type: 'varchar', length: 100, nullable: false })
-  id: string;
+  id: Uuid;
 
   @Column({ type: 'varchar', length: 100, nullable: false })
-  level_id: string;
+  level_id: Uuid;
 
   @Column({ type: 'integer' })
   x: number;

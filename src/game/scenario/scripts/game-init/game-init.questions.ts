@@ -24,7 +24,7 @@ export class GameInitQuestions {
     message: 'What do you prefer?',
     name: GAME_INIT,
   })
-  parseInit(value: boolean): boolean {
+  parseInit(value: string): string {
     return value;
   }
 

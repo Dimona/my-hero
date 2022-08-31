@@ -1,9 +1,10 @@
 import { Column, Entity, PrimaryColumn } from 'typeorm';
+import { Uuid } from "@game/game.types";
 
 @Entity({ name: 'players' })
 export class PlayerEntity {
   @PrimaryColumn({ type: 'varchar', length: 100, nullable: false })
-  id: string;
+  id: Uuid;
 
   @Column({ type: 'varchar', length: 255, nullable: false })
   name: string;
@@ -12,5 +13,5 @@ export class PlayerEntity {
   created_at?: Date;
 
   @Column({ type: 'varchar', length: 255, nullable: true })
-  active_game_id: string;
+  active_game_id: Uuid;
 }

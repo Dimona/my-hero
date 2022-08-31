@@ -15,6 +15,11 @@ export class ContextService {
     this.context.set('game', payload);
   }
 
+  @OnEvent(GameEvent.RESTORED, { async: false })
+  handleGameRestored(payload: Game): void {
+    this.context.set('game', payload);
+  }
+
   @OnEvent(PlayerEvent.RESTORED, { async: false })
   async handlePlayerRestored(payload: Player): Promise<void> {
     this.context.set('player', payload);

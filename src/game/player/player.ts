@@ -1,5 +1,6 @@
 import { Uuid } from '@game/game.types';
 import { Utils } from '@common/utils';
+import { PlayerCreateParams } from '@game/player/player.types';
 
 export class Player {
   private activeGameId: Uuid;
@@ -24,7 +25,7 @@ export class Player {
     return this.activeGameId;
   }
 
-  static create({ name, uuid }: { name: string; uuid?: Uuid }): Player {
+  static create({ name, uuid }: PlayerCreateParams): Player {
     return new Player(uuid || Utils.generateUuid(), name);
   }
 }

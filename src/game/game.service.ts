@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from "@nestjs/common";
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { Game } from '@game/game';
 import { GameEvent, GameStatus } from './game.enums';
@@ -7,6 +7,13 @@ import { InjectStorage } from '@storage/storage.inject.decorator';
 import { Storage } from '@storage/storage';
 import { LevelService } from '@game/level/level.service';
 import { Restorable } from '@game/game.interfaces';
+import { Player } from '@game/player/player';
+import { HeroService } from '@game/hero/hero.service';
+import { InjectScenario } from '@game/scenario/scenario.inject.decorator';
+import { ScriptCollection } from '@game/scenario/script.collection';
+import { HeroCreateScript } from '@game/scenario/scripts/hero-create/hero-create.script';
+import colors from "colors";
+import { RaceLabel } from "@game/hero/hero.enums";
 
 @Injectable()
 export class GameService implements Restorable {
@@ -14,21 +21,25 @@ export class GameService implements Restorable {
     @InjectStorage() private readonly storage: Storage,
     private readonly eventEmitter: EventEmitter2,
     private readonly levelService: LevelService,
+    private readonly heroService: HeroService,
+    @InjectScenario() private readonly scenario: ScriptCollection,
+    private readonly heroCreateScript: HeroCreateScript,
   ) {}
 
-  async start(): Promise<Game> {
+  async start(player: Player): Promise<Game> {
     const game = Game.create();
 
     game.setStartedAt(new Date());
     game.setStatus(GameStatus.STARTED);
+    game.setPlayer(player);
 
     await this.eventEmitter.emitAsync(GameEvent.STARTED, game);
 
     return game;
   }
 
-  async restore(uuid: Uuid): Promise<Game | null> {
-    const gameSnapshot = await this.storage.restoreGame(uuid);
+  async restore(player: Player, uuid: Uuid): Promise<Game | null> {
+    const gameSnapshot = await this.storage.restoreGame(player, uuid);
 
     if (!gameSnapshot) {
       return null;
@@ -37,10 +48,24 @@ export class GameService implements Restorable {
     const game = Game.create(uuid);
     game.setStartedAt(gameSnapshot.startedAt);
     game.setStatus(gameSnapshot.status);
+    game.setPlayer(player);
 
     const level = gameSnapshot.level
       ? await this.levelService.restore(game, gameSnapshot.level)
       : await this.levelService.create(game);
+
+    if (gameSnapshot.hero) {
+      const hero = await this.heroService.restore(game, gameSnapshot.hero);
+
+      Logger.verbose(
+        `Your hero is ${colors.bold(colors.blue(RaceLabel[hero.getRace()]))} with name ${colors.bold(
+          colors.green(hero.getName()),
+        )}`,
+        { timestamp: false },
+      );
+    } else {
+      this.scenario.addScript(this.heroCreateScript);
+    }
 
     await this.eventEmitter.emitAsync(GameEvent.RESTORED, game);
 

@@ -5,7 +5,7 @@ import { Snapshot } from '@storage/storage.types';
 
 export interface IStorageStrategy {
   saveGame(game: Game): Promise<void>;
-  restoreGame(uuid: Uuid): Promise<Snapshot.Game>;
+  restoreGame(player: Player, uuid: Uuid): Promise<Snapshot.Game>;
   savePlayer(player: Player): Promise<void>;
   getPlayer(uuid: Uuid): Promise<Snapshot.Player | null>;
 }

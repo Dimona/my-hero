@@ -86,5 +86,6 @@ export namespace Graphic {
 
     render(colors.bold(colors.yellow(`\n   The ${lvl.getName()} Map\n`)));
     render(colors.dim(colors.yellow(lines.join('\n'))));
+    render('');
   };
 }

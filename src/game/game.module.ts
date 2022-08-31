@@ -11,6 +11,9 @@ import { GameInitQuestions } from '@game/scenario/scripts/game-init/game-init.qu
 import { SCENARIO } from '@game/scenario/scenario.constants';
 import { ScriptCollection } from '@game/scenario/script.collection';
 import { LevelService } from '@game/level/level.service';
+import { HeroCreateScript } from '@game/scenario/scripts/hero-create/hero-create.script';
+import { HeroCreateQuestions } from '@game/scenario/scripts/hero-create/hero-create.questions';
+import { HeroService } from '@game/hero/hero.service';
 
 @Module({
   imports: [StorageModule.register(DbStorageStrategy)],
@@ -26,16 +29,14 @@ import { LevelService } from '@game/level/level.service';
     GameInitQuestions,
     // Level
     LevelService,
+    // Hero
+    HeroService,
+    HeroCreateScript,
+    HeroCreateQuestions,
     // Scenario
     {
       provide: SCENARIO,
-      useFactory(playerScript: PlayerScript, gameInitScript: GameInitScript) {
-        const scenario = new ScriptCollection();
-        scenario.addScript(playerScript).addScript(gameInitScript);
-
-        return scenario;
-      },
-      inject: [PlayerScript, GameInitScript],
+      useValue: new ScriptCollection(),
     },
   ],
 })

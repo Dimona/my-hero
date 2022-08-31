@@ -4,6 +4,8 @@ import { GAME } from '@game/game.constants';
 import { InjectScenario } from '@game/scenario/scenario.inject.decorator';
 import { ScriptCollection } from '@game/scenario/script.collection';
 import { Graphic } from '@graphics/renderers';
+import { PlayerScript } from '@game/scenario/scripts/player/player.script';
+import { GameInitScript } from '@game/scenario/scripts/game-init/game-init.script';
 
 @Command({
   name: GAME,
@@ -11,7 +13,11 @@ import { Graphic } from '@graphics/renderers';
   options: { isDefault: true },
 })
 export class GameCommand extends CommandRunner {
-  constructor(@InjectScenario() private readonly scenario: ScriptCollection) {
+  constructor(
+    @InjectScenario() private readonly scenario: ScriptCollection,
+    private readonly playerScript: PlayerScript,
+    private readonly gameInitScript: GameInitScript,
+  ) {
     super();
   }
 
@@ -21,6 +27,8 @@ export class GameCommand extends CommandRunner {
         timestamp: false,
       });
       Graphic.logo();
+
+      this.scenario.addScript(this.playerScript).addScript(this.gameInitScript);
 
       const iterator = this.scenario.getIterator();
       while (iterator.valid()) {

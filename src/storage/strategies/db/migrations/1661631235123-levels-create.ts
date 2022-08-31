@@ -4,21 +4,17 @@ export class LevelsCreate1661631235123 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
       create table if not exists levels (
-        id varchar(100) not null primary key,
+        id uuid not null primary key,
         name varchar(100) default 'Scary level' not null,
-        created_at timestamp without time zone default now(),
-        game_id varchar(100) not null
+        created_at timestamp without time zone not null default now(),
+        game_id uuid not null
+          constraint levels_game_id_fk references games (id) on delete cascade
       );
     `);
     await queryRunner.query(`
-      alter table levels
-        add constraint levels_game_id_fk
-          foreign key (game_id) references games (id) on delete cascade;
-    `);
-    await queryRunner.query(`
       create table if not exists level_rooms (
-        id varchar(100) not null primary key,
-        level_id  varchar(100) not null
+        id uuid not null primary key,
+        level_id  uuid not null
           constraint level_rooms_level_id_fk references levels (id) on delete cascade,
         x integer not null,
         y integer not null,

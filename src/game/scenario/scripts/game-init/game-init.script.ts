@@ -15,6 +15,9 @@ import { Player } from '@game/player/player';
 import { Uuid } from '@game/game.types';
 import { GAME_START_QS, GameStartParams, PROMPTED_START } from '@game/scenario/scripts/game-init/game-start.questions';
 import { Graphic } from '@graphics/renderers';
+import { InjectScenario } from '@game/scenario/scenario.inject.decorator';
+import { ScriptCollection } from '@game/scenario/script.collection';
+import { HeroCreateScript } from '@game/scenario/scripts/hero-create/hero-create.script';
 
 @Injectable()
 export class GameInitScript implements IScript {
@@ -24,6 +27,8 @@ export class GameInitScript implements IScript {
     private readonly inquirer: InquirerService,
     private readonly gameService: GameService,
     private readonly context: Context,
+    @InjectScenario() private readonly scenario: ScriptCollection,
+    private readonly heroCreateScript: HeroCreateScript,
   ) {}
 
   exit(): void {
@@ -44,14 +49,15 @@ export class GameInitScript implements IScript {
 
     switch (gameInit) {
       case GameInitValue.START:
-        const game = await this.gameService.start();
+        const game = await this.gameService.start(player);
         Graphic.level(game.getLevel());
+        this.scenario.addScript(this.heroCreateScript);
         break;
 
       case GameInitValue.RESTORE:
         if (gameId) {
           // eslint-disable-next-line @typescript-eslint/no-shadow
-          let game = await this.gameService.restore(gameId);
+          let game = await this.gameService.restore(player, gameId);
           if (!game) {
             Logger.error('Something went wrong during restore');
 
@@ -62,8 +68,9 @@ export class GameInitScript implements IScript {
               return this.exit();
             }
 
-            game = await this.gameService.start();
+            game = await this.gameService.start(player);
             Graphic.level(game.getLevel());
+            this.scenario.addScript(this.heroCreateScript);
             break;
           }
           Graphic.level(game.getLevel());

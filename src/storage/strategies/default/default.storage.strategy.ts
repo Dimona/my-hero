@@ -15,7 +15,7 @@ export class DefaultStorageStrategy implements IStorageStrategy {
     // Do nothing
   }
 
-  restoreGame(uuid: Uuid): Promise<Snapshot.Game> {
+  restoreGame(player: Player, uuid: Uuid): Promise<Snapshot.Game> {
     // Do nothing
     throw new StorageGameNotFoundError();
   }

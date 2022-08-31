@@ -6,5 +6,6 @@ export enum GameStatus {
 
 export enum GameEvent {
   STARTED = 'game.started',
+  UPDATED = 'game.updated',
   RESTORED = 'game.restored',
 }
