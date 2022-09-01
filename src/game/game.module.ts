@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { levelConfig } from '@game/level/level.config';
 import { StorageModule } from '@storage/storage.module';
 import { DbStorageStrategy } from '@db-storage/db.storage.strategy';
 import { GameService } from '@game/game.service';
@@ -14,9 +15,14 @@ import { LevelService } from '@game/level/level.service';
 import { HeroCreateScript } from '@game/scenario/scripts/hero-create/hero-create.script';
 import { HeroCreateQuestions } from '@game/scenario/scripts/hero-create/hero-create.questions';
 import { HeroService } from '@game/hero/hero.service';
+import { ConfigModule } from '@nestjs/config';
+import { HeroMoveScript } from '@game/scenario/scripts/hero-move/hero-move.script';
+import { GameStartQuestions } from '@game/scenario/scripts/game-init/game-start.questions';
+import { HeroEnterQuestions } from '@game/scenario/scripts/hero-move/hero-enter.questions';
+import { HeroMoveQuestions } from '@game/scenario/scripts/hero-move/hero-move.questions';
 
 @Module({
-  imports: [StorageModule.register(DbStorageStrategy)],
+  imports: [StorageModule.register(DbStorageStrategy), ConfigModule.forFeature(levelConfig)],
   providers: [
     GameCommand,
     // Player
@@ -27,12 +33,17 @@ import { HeroService } from '@game/hero/hero.service';
     GameService,
     GameInitScript,
     GameInitQuestions,
+    GameStartQuestions,
     // Level
     LevelService,
     // Hero
     HeroService,
     HeroCreateScript,
     HeroCreateQuestions,
+    // Move
+    HeroMoveScript,
+    HeroMoveQuestions,
+    HeroEnterQuestions,
     // Scenario
     {
       provide: SCENARIO,

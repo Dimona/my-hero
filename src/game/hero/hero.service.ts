@@ -3,7 +3,6 @@ import { Creatable, Restorable } from '@game/game.interfaces';
 import { InjectStorage } from '@storage/storage.inject.decorator';
 import { Storage } from '@storage/storage';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { Context } from '@context/context';
 import { HeroEvent, Race } from '@game/hero/hero.enums';
 import { Game } from '@game/game';
 import { Hero } from '@game/hero/hero';
@@ -27,9 +26,21 @@ export class HeroService implements Creatable, Restorable {
   }
 
   async restore(game: Game, heroSnapshot: Snapshot.Hero): Promise<Hero> {
+    const level = game.getLevel();
+
     const hero = Hero.create({ name: heroSnapshot.name, race: heroSnapshot.race, uuid: heroSnapshot.uuid })
       .setState(HeroState.create(heroSnapshot.characteristics.uuid))
       .updateCharacteristics(heroSnapshot.characteristics.data);
+    if (Number.isInteger(heroSnapshot.x) && Number.isInteger(heroSnapshot.y)) {
+      hero.setLocation({ x: heroSnapshot.x, y: heroSnapshot.y });
+    }
+    heroSnapshot.rooms.forEach(room => {
+      hero.addRoom({
+        uuid: room.uuid,
+        status: room.status,
+        levelRoom: level.getRoom(room.levelRoom.x, room.levelRoom.y),
+      });
+    });
 
     game.setHero(hero);
 

@@ -1,6 +1,14 @@
 export enum HeroEvent {
   CREATED = 'hero.created',
   RESTORED = 'hero.restored',
+  UPDATED = 'hero.updated',
+}
+
+export enum HeroMove {
+  LEFT = 'left',
+  RIGHT = 'right',
+  TOP = 'top',
+  BOTTOM = 'bottom',
 }
 
 export enum RaceLabel {
@@ -17,4 +25,10 @@ export enum Race {
   ELF = 'ELF',
   DARK_ELF = 'DARK_ELF',
   GNOME = 'GNOME',
+}
+
+export enum HeroRoomStatus {
+  PENDING = 'PENDING',
+  IN_PROGRESS = 'IN_PROGRESS',
+  PASSED = 'PASSED',
 }

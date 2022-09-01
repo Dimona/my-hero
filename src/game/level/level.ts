@@ -1,6 +1,6 @@
 import { Utils } from '@common/utils';
 import { Uuid } from '@game/game.types';
-import { LevelRooms } from '@game/level/level.types';
+import { LevelRooms, Room } from '@game/level/level.types';
 
 export class Level {
   private rooms: LevelRooms;
@@ -27,5 +27,9 @@ export class Level {
 
   getRooms(): LevelRooms {
     return this.rooms;
+  }
+
+  getRoom(x: number, y: number): Room {
+    return this.rooms[`${x}|${y}`];
   }
 }

@@ -2,7 +2,7 @@ interface IIterator<T> {
   // Return the current element.
   current(): T;
 
-  // Return the current element and move forward to next element.
+  // Return the current element and hero-move forward to next element.
   next(): T;
 
   // Return the key of the current element.

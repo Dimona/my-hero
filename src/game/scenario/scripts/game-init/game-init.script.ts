@@ -1,7 +1,6 @@
 import { IScript } from '@game/scenario/scenario.interfaces';
 import { InquirerService } from 'nest-commander';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { ConfigService } from '@nestjs/config';
 import { Injectable, Logger } from '@nestjs/common';
 import {
   GAME_INIT,
@@ -14,7 +13,6 @@ import { GameService } from '@game/game.service';
 import { Player } from '@game/player/player';
 import { Uuid } from '@game/game.types';
 import { GAME_START_QS, GameStartParams, PROMPTED_START } from '@game/scenario/scripts/game-init/game-start.questions';
-import { Graphic } from '@graphics/renderers';
 import { InjectScenario } from '@game/scenario/scenario.inject.decorator';
 import { ScriptCollection } from '@game/scenario/script.collection';
 import { HeroCreateScript } from '@game/scenario/scripts/hero-create/hero-create.script';
@@ -22,7 +20,6 @@ import { HeroCreateScript } from '@game/scenario/scripts/hero-create/hero-create
 @Injectable()
 export class GameInitScript implements IScript {
   constructor(
-    private readonly configService: ConfigService,
     private readonly eventEmitter: EventEmitter2,
     private readonly inquirer: InquirerService,
     private readonly gameService: GameService,
@@ -30,10 +27,6 @@ export class GameInitScript implements IScript {
     @InjectScenario() private readonly scenario: ScriptCollection,
     private readonly heroCreateScript: HeroCreateScript,
   ) {}
-
-  exit(): void {
-    Logger.verbose('GoodBy');
-  }
 
   async run(): Promise<void> {
     let gameId: Uuid = null;
@@ -78,5 +71,9 @@ export class GameInitScript implements IScript {
         this.exit();
         break;
     }
+  }
+
+  private exit(): void {
+    Logger.verbose('GoodBy', null, { timestamp: false });
   }
 }

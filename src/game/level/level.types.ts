@@ -1,5 +1,10 @@
 import { Uuid } from '@game/game.types';
 
+export type LevelConfig = {
+  width: number;
+  height: number;
+};
+
 export type LevelParams = {
   width: number;
   height: number;

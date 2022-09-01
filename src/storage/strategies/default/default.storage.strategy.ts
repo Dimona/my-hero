@@ -27,4 +27,8 @@ export class DefaultStorageStrategy implements IStorageStrategy {
   getPlayer(uuid: Uuid): Promise<Snapshot.Player | null> {
     return null;
   }
+
+  async saveHero(game: Game): Promise<void> {
+    // Do nothing
+  }
 }

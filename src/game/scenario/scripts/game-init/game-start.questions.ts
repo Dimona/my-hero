@@ -9,7 +9,7 @@ export type GameStartParams = {
 };
 
 @QuestionSet({ name: GAME_START_QS })
-export class GameQuestions {
+export class GameStartQuestions {
   @Question({
     type: 'confirm',
     message: 'Do you wanna start the game?',

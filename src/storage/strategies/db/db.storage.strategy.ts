@@ -14,6 +14,7 @@ import { LevelEntity } from '@db-storage/entities/level.entity';
 import { LevelRoomEntity } from '@db-storage/entities/level-room.entity';
 import { HeroEntity } from '@db-storage/entities/hero.entity';
 import { CharacteristicsEntity } from '@db-storage/entities/characteristics.entity';
+import { HeroRoomEntity } from '@db-storage/entities/hero-room.entity';
 
 @Injectable()
 export class DbStorageStrategy implements IStorageStrategy {
@@ -53,7 +54,7 @@ export class DbStorageStrategy implements IStorageStrategy {
     return result;
   }
 
-  private async saveHero(game: Game): Promise<void> {
+  async saveHero(game: Game): Promise<void> {
     const hero = game.getHero();
     const player = game.getPlayer();
     const heroEntity = new HeroEntity();
@@ -77,6 +78,24 @@ export class DbStorageStrategy implements IStorageStrategy {
 
     heroEntity.characteristics = characteristicsEntity;
 
+    const location = hero.getLocation();
+    heroEntity.x = location.x;
+    heroEntity.y = location.y;
+
+    // Hero rooms
+    const heroRoomEntities: HeroRoomEntity[] = [];
+    const heroRooms = hero.getRooms();
+    Object.values(heroRooms).forEach(heroRoom => {
+      const heroRoomEntity = new HeroRoomEntity();
+      heroRoomEntity.id = heroRoom.uuid;
+      heroRoomEntity.status = heroRoom.status;
+      heroRoomEntity.hero_id = hero.getUuid();
+      heroRoomEntity.room_id = heroRoom.levelRoom.uuid;
+
+      heroRoomEntities.push(heroRoomEntity);
+    });
+    heroEntity.rooms = heroRoomEntities;
+
     await this.heroRepo.save(heroEntity);
   }
 
@@ -96,7 +115,14 @@ export class DbStorageStrategy implements IStorageStrategy {
     try {
       const game = await this.gameRepo.findOneOrFail({
         where: { id: uuid },
-        relations: ['level', 'level.rooms', 'heroes', 'heroes.characteristics'],
+        relations: [
+          'level',
+          'level.rooms',
+          'heroes',
+          'heroes.characteristics',
+          'heroes.rooms',
+          'heroes.rooms.level_room',
+        ],
       });
       const {
         heroes = [],
@@ -132,6 +158,23 @@ export class DbStorageStrategy implements IStorageStrategy {
               name: hero.name,
               race: hero.race,
               uuid: hero.id,
+              x: hero.x,
+              y: hero.y,
+              rooms: hero.rooms.map((room: HeroRoomEntity) => ({
+                uuid: room.id,
+                status: room.status,
+                levelRoom: {
+                  uuid: room.level_room.id,
+                  x: room.level_room.x,
+                  y: room.level_room.y,
+                  walls: {
+                    left: room.level_room.left_wall,
+                    top: room.level_room.top_wall,
+                    right: room.level_room.right_wall,
+                    bottom: room.level_room.bottom_wall,
+                  },
+                },
+              })),
               characteristics: {
                 uuid: hero.characteristics.id,
                 data: {

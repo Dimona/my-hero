@@ -22,4 +22,8 @@ export class Storage implements IStorage {
   getPlayer(uuid: Uuid): Promise<Snapshot.Player> {
     return this.strategy.getPlayer(uuid);
   }
+
+  saveHero(game: Game): Promise<void> {
+    return this.strategy.saveHero(game);
+  }
 }

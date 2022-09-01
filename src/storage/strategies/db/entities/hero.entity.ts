@@ -1,8 +1,9 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryColumn } from "typeorm";
 import { Uuid } from '@game/game.types';
 import { Race } from '@game/hero/hero.enums';
 import { GameEntity } from '@db-storage/entities/game.entity';
 import { CharacteristicsEntity } from '@db-storage/entities/characteristics.entity';
+import { HeroRoomEntity } from "@db-storage/entities/hero-room.entity";
 
 @Entity({ name: 'heroes' })
 export class HeroEntity {
@@ -24,6 +25,12 @@ export class HeroEntity {
   @Column({ type: 'uuid', nullable: false })
   characteristics_id?: Uuid;
 
+  @Column({ type: 'integer' })
+  x: number;
+
+  @Column({ type: 'integer' })
+  y: number;
+
   @ManyToOne(() => GameEntity, game => game.heroes, { orphanedRowAction: 'delete' })
   @JoinColumn({ name: 'game_id', referencedColumnName: 'id' })
   game: GameEntity;
@@ -31,4 +38,8 @@ export class HeroEntity {
   @OneToOne(() => CharacteristicsEntity, { eager: true, cascade: true })
   @JoinColumn({ name: 'characteristics_id', referencedColumnName: 'id' })
   characteristics: CharacteristicsEntity;
+
+  @OneToMany(() => HeroRoomEntity, room => room.hero, { cascade: true })
+  @JoinColumn({ name: 'id', referencedColumnName: 'hero_id' })
+  rooms: HeroRoomEntity[];
 }

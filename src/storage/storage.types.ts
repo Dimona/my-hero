@@ -3,7 +3,7 @@ import { Uuid } from '@game/game.types';
 import { GameStatus } from '@game/game.enums';
 import { IStorageStrategy } from '@storage/storage.interfaces';
 import { StorageStrategyType } from '@storage/storage.enums';
-import { Race } from '@game/hero/hero.enums';
+import { HeroRoomStatus, Race } from '@game/hero/hero.enums';
 import { Characteristics as TCharacteristics } from '@game/common/common.types';
 
 export type StorageStrategyTyped = ClassConstructor<IStorageStrategy> & { type: StorageStrategyType };
@@ -46,10 +46,19 @@ export namespace Snapshot {
     uuid: Uuid;
     name: string;
     race: Race;
+    x: number;
+    y: number;
+    rooms: HeroRoom[];
     characteristics: {
       uuid: Uuid;
       data: Characteristics;
     };
+  };
+
+  export type HeroRoom = {
+    uuid: Uuid;
+    status: HeroRoomStatus;
+    levelRoom: LevelRoom;
   };
 
   export type Characteristics = TCharacteristics;

@@ -12,9 +12,7 @@ import { HeroService } from '@game/hero/hero.service';
 import { InjectScenario } from '@game/scenario/scenario.inject.decorator';
 import { ScriptCollection } from '@game/scenario/script.collection';
 import { HeroCreateScript } from '@game/scenario/scripts/hero-create/hero-create.script';
-import colors from 'colors';
-import { RaceLabel } from '@game/hero/hero.enums';
-import { Graphic } from "@graphics/renderers";
+import { HeroMoveScript } from '@game/scenario/scripts/hero-move/hero-move.script';
 
 @Injectable()
 export class GameService implements Restorable {
@@ -25,6 +23,7 @@ export class GameService implements Restorable {
     private readonly heroService: HeroService,
     @InjectScenario() private readonly scenario: ScriptCollection,
     private readonly heroCreateScript: HeroCreateScript,
+    private readonly heroMoveScript: HeroMoveScript,
   ) {}
 
   async start(player: Player): Promise<Game> {
@@ -55,10 +54,11 @@ export class GameService implements Restorable {
       ? await this.levelService.restore(game, gameSnapshot.level)
       : await this.levelService.create(game);
 
-    if (gameSnapshot.hero) {
-      await this.heroService.restore(game, gameSnapshot.hero);
-    } else {
+    if (!gameSnapshot.hero) {
       this.scenario.addScript(this.heroCreateScript);
+    } else {
+      await this.heroService.restore(game, gameSnapshot.hero);
+      this.scenario.addScript(this.heroMoveScript);
     }
 
     await this.eventEmitter.emitAsync(GameEvent.RESTORED, game);

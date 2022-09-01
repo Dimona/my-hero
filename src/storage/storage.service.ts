@@ -49,4 +49,9 @@ export class StorageService {
 
     this.eventEmitter.emit(StorageEvents.SAVED, 'game');
   }
+
+  @OnEvent(HeroEvent.UPDATED, { async: false })
+  async handleHeroUpdated(payload: Game): Promise<void> {
+    await this.storage.saveHero(payload);
+  }
 }

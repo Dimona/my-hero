@@ -11,6 +11,7 @@ import { PlayerEntity } from '@db-storage/entities/player.entity';
 import { LevelRoomEntity } from '@db-storage/entities/level-room.entity';
 import { HeroEntity } from '@db-storage/entities/hero.entity';
 import { CharacteristicsEntity } from '@db-storage/entities/characteristics.entity';
+import { HeroRoomEntity } from '@db-storage/entities/hero-room.entity';
 
 export class DbStorageDynamicModuleFactory {
   static create(): DynamicModule {
@@ -25,6 +26,7 @@ export class DbStorageDynamicModuleFactory {
         CharacteristicsEntity,
         LevelRoomEntity,
         HeroEntity,
+        HeroRoomEntity,
       ]),
     );
     providers.push(DbStorageStrategy);

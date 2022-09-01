@@ -12,6 +12,9 @@ import {
 import { HeroService } from '@game/hero/hero.service';
 import colors from 'colors';
 import { RaceLabel } from '@game/hero/hero.enums';
+import { InjectScenario } from '@game/scenario/scenario.inject.decorator';
+import { ScriptCollection } from '@game/scenario/script.collection';
+import { HeroMoveScript } from '@game/scenario/scripts/hero-move/hero-move.script';
 
 @Injectable()
 export class HeroCreateScript implements IScript {
@@ -19,6 +22,8 @@ export class HeroCreateScript implements IScript {
     private readonly inquirer: InquirerService,
     private readonly heroService: HeroService,
     private readonly context: Context,
+    @InjectScenario() private readonly scenario: ScriptCollection,
+    private readonly heroMoveScript: HeroMoveScript,
   ) {}
 
   async run(): Promise<void> {
@@ -44,6 +49,6 @@ export class HeroCreateScript implements IScript {
       { timestamp: false },
     );
 
-    // TODO: Add Next script into scenario
+    this.scenario.addScript(this.heroMoveScript);
   }
 }

@@ -1,5 +1,5 @@
 import { Race } from '@game/hero/hero.enums';
-import { HeroCreateParams } from '@game/hero/hero.types';
+import { HeroCreateParams, HeroRoom, HeroRooms, HeroLocation } from '@game/hero/hero.types';
 import { HeroState } from '@game/hero/hero.state';
 import { Characteristics } from '@game/common/common.types';
 import { Uuid } from '@game/game.types';
@@ -7,6 +7,10 @@ import { Utils } from '@common/utils';
 
 export class Hero {
   private state: HeroState;
+
+  private rooms: HeroRooms = {};
+
+  private location: HeroLocation;
 
   private constructor(private readonly uuid: Uuid, private readonly name: string, private readonly race: Race) {}
 
@@ -30,6 +34,30 @@ export class Hero {
     this.state = state;
 
     return this;
+  }
+
+  addRoom(room: HeroRoom): this {
+    this.rooms[`${room.levelRoom.x}|${room.levelRoom.y}`] = room;
+
+    return this;
+  }
+
+  getRoomByLocation({ x, y }: HeroLocation): HeroRoom {
+    return this.rooms[`${x}|${y}`];
+  }
+
+  getRooms(): HeroRooms {
+    return this.rooms;
+  }
+
+  setLocation(location: HeroLocation): this {
+    this.location = location;
+
+    return this;
+  }
+
+  getLocation(): HeroLocation {
+    return this.location;
   }
 
   getState(): HeroState {
