@@ -6,7 +6,7 @@ export const ElfTemplate: Characteristics = {
   manna: 120,
   maxManna: 120,
   physicalAttack: 5,
-  physicalDefence: 15,
+  physicalDefense: 15,
   magicalAttack: 30,
-  magicalDefence: 30,
+  magicalDefense: 30,
 };

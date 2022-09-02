@@ -6,7 +6,7 @@ export const GnomeTemplate: Characteristics = {
   manna: 0,
   maxManna: 0,
   physicalAttack: 50,
-  physicalDefence: 30,
+  physicalDefense: 30,
   magicalAttack: 0,
-  magicalDefence: 0,
+  magicalDefense: 0,
 };

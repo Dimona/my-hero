@@ -22,11 +22,11 @@ export class CharacteristicsEntity {
   physical_attack: number;
 
   @Column({ type: 'integer', nullable: false })
-  physical_defence: number;
+  physical_defense: number;
 
   @Column({ type: 'integer', nullable: false })
   magical_attack: number;
 
   @Column({ type: 'integer', nullable: false })
-  magical_defence: number;
+  magical_defense: number;
 }

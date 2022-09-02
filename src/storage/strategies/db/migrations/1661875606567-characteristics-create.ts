@@ -10,9 +10,9 @@ export class CharacteristicsCreate1661875606567 implements MigrationInterface {
         manna integer not null,
         max_manna integer not null,
         physical_attack integer not null,
-        physical_defence integer not null,
+        physical_defense integer not null,
         magical_attack integer not null,
-        magical_defence integer not null
+        magical_defense integer not null
       );
     `);
   }

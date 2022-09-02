@@ -42,13 +42,12 @@ export class GameInitScript implements IScript {
 
     switch (gameInit) {
       case GameInitValue.START:
-        const game = await this.gameService.start(player);
+        await this.gameService.start(player);
         this.scenario.addScript(this.heroCreateScript);
         break;
 
       case GameInitValue.RESTORE:
         if (gameId) {
-          // eslint-disable-next-line @typescript-eslint/no-shadow
           let game = await this.gameService.restore(player, gameId);
           if (!game) {
             Logger.error('Something went wrong during restore');
@@ -74,6 +73,6 @@ export class GameInitScript implements IScript {
   }
 
   private exit(): void {
-    Logger.verbose('GoodBy', null, { timestamp: false });
+    Logger.warn('GoodBy', null, { timestamp: false });
   }
 }

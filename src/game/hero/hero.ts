@@ -68,8 +68,14 @@ export class Hero {
     return this.state.getState();
   }
 
-  updateCharacteristic<V>(field: keyof Characteristics, value: V): this {
+  updateCharacteristic(field: keyof Characteristics, value: number): this {
     this.state.updateField(field, value);
+
+    return this;
+  }
+
+  applyCharacteristic(field: keyof Characteristics, value: number): this {
+    this.state.updateField(field, this.state.getState()[field] + value);
 
     return this;
   }

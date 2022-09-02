@@ -6,7 +6,7 @@ export const OrcTemplate: Characteristics = {
   manna: 50,
   maxManna: 50,
   physicalAttack: 30,
-  physicalDefence: 30,
+  physicalDefense: 30,
   magicalAttack: 10,
-  magicalDefence: 10,
+  magicalDefense: 10,
 };

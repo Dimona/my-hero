@@ -10,6 +10,7 @@ import { Player } from '@game/player/player';
 import { LevelEvent } from '@game/level/level.enums';
 import { HeroEvent } from '@game/hero/hero.enums';
 import { Hero } from '@game/hero/hero';
+import { RoomEventEvent } from '@game/scenario/scripts/room-event/room-event.enums';
 
 @Injectable()
 export class StorageService {
@@ -52,6 +53,11 @@ export class StorageService {
 
   @OnEvent(HeroEvent.UPDATED, { async: false })
   async handleHeroUpdated(payload: Game): Promise<void> {
+    await this.storage.saveHero(payload);
+  }
+
+  @OnEvent(RoomEventEvent.PASSED, { async: false })
+  async handleRoomPassed(payload: Game): Promise<void> {
     await this.storage.saveHero(payload);
   }
 }

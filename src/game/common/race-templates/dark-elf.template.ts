@@ -6,7 +6,7 @@ export const DarkElfTemplate: Characteristics = {
   manna: 140,
   maxManna: 140,
   physicalAttack: 5,
-  physicalDefence: 10,
+  physicalDefense: 10,
   magicalAttack: 50,
-  magicalDefence: 15,
+  magicalDefense: 15,
 };

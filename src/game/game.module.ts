@@ -20,6 +20,12 @@ import { HeroMoveScript } from '@game/scenario/scripts/hero-move/hero-move.scrip
 import { GameStartQuestions } from '@game/scenario/scripts/game-init/game-start.questions';
 import { HeroEnterQuestions } from '@game/scenario/scripts/hero-move/hero-enter.questions';
 import { HeroMoveQuestions } from '@game/scenario/scripts/hero-move/hero-move.questions';
+import { RoomEventGenerator } from '@game/scenario/scripts/room-event/room-event.generator';
+import { AutoRewardRoomEventScript } from '@game/scenario/scripts/room-event/auto-reward/auto-reward.room-event.script';
+import { AutoTrapRoomEventScript } from '@game/scenario/scripts/room-event/auto-trap/auto-trap.room-event.script';
+import { ManualRewardRoomEventScript } from '@game/scenario/scripts/room-event/manual-reward/manual-reward.room-event.script';
+import { RewardQuestions } from '@game/scenario/scripts/room-event/reward/reward.questions';
+import { RoomEventCompleteScript } from '@game/scenario/scripts/room-event/room-event.complete.script';
 
 @Module({
   imports: [StorageModule.register(DbStorageStrategy), ConfigModule.forFeature(levelConfig)],
@@ -44,6 +50,13 @@ import { HeroMoveQuestions } from '@game/scenario/scripts/hero-move/hero-move.qu
     HeroMoveScript,
     HeroMoveQuestions,
     HeroEnterQuestions,
+    // Game Events
+    RoomEventGenerator,
+    AutoRewardRoomEventScript,
+    AutoTrapRoomEventScript,
+    ManualRewardRoomEventScript,
+    RoomEventCompleteScript,
+    RewardQuestions,
     // Scenario
     {
       provide: SCENARIO,

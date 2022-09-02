@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { forwardRef, Inject, Injectable, Logger } from '@nestjs/common';
 import { IScript } from '@game/scenario/scenario.interfaces';
 import { Context } from '@context/context';
 import { Game } from '@game/game';
@@ -6,11 +6,13 @@ import { Utils } from '@common/utils';
 import { HeroEvent, HeroMove, HeroRoomStatus } from '@game/hero/hero.enums';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { InquirerService } from 'nest-commander';
-import { HERO_MOVE, HERO_MOVE_QS, HeroMoveParams } from "@game/scenario/scripts/hero-move/hero-move.questions";
+import { HERO_MOVE, HERO_MOVE_QS, HeroMoveParams } from '@game/scenario/scripts/hero-move/hero-move.questions';
 import { HeroLocation } from '@game/hero/hero.types';
-import { Hero } from '@game/hero/hero';
-import { Level } from '@game/level/level';
 import { HERO_ENTER_QS, HeroEnterParams, PROMPTED_ENTER } from '@game/scenario/scripts/hero-move/hero-enter.questions';
+import { InjectScenario } from '@game/scenario/scenario.inject.decorator';
+import { ScriptCollection } from '@game/scenario/script.collection';
+import { AutoRewardRoomEventScript } from '@game/scenario/scripts/room-event/auto-reward/auto-reward.room-event.script';
+import { RoomEventGenerator } from '@game/scenario/scripts/room-event/room-event.generator';
 
 @Injectable()
 export class HeroMoveScript implements IScript {
@@ -18,42 +20,58 @@ export class HeroMoveScript implements IScript {
     private readonly context: Context,
     private readonly eventEmitter: EventEmitter2,
     private readonly inquirer: InquirerService,
+    private readonly roomEventGenerator: RoomEventGenerator,
+    @InjectScenario() private readonly scenario: ScriptCollection,
+    @Inject(forwardRef(() => AutoRewardRoomEventScript))
+    private readonly autoRewardRoomEventScript: AutoRewardRoomEventScript,
   ) {}
 
   async run(): Promise<void> {
     const game = this.context.get<Game>('game');
-    const level = game.getLevel();
-    const hero = game.getHero();
     const location = game.getHero().getLocation();
 
     if (!location) {
-      await this.enter();
+      await this.enterCave();
       return;
     }
 
-    const { heroMove } = await this.inquirer.ask<HeroMoveParams>(HERO_MOVE_QS, {
-      [HERO_MOVE]: undefined,
-      walls: level.getRoom(location.x, location.y).walls,
-    });
+    await this.processLocation(location);
+  }
 
-    this.move(location, heroMove);
-    const room = hero.getRoomByLocation(location);
+  private async processLocation(location: HeroLocation): Promise<void> {
+    const game = this.context.get<Game>('game');
+    const hero = game.getHero();
+    const level = game.getLevel();
 
-    if (room) {
-      if (room.status === HeroRoomStatus.PASSED) {
-        Logger.verbose(`You've been there before`);
-        // Repeat move again
-        await this.run();
-      } else if (room.status === HeroRoomStatus.IN_PROGRESS) {
-        // TODO Generate event and add to scenario
-      }
+    const heroRoom = hero.getRoomByLocation(location);
+
+    if (!heroRoom) {
+      await this.enterRoom(location);
       return;
     }
 
-    // Enter the room
-    this.enterRoom(hero, level, location);
+    await this.eventEmitter.emitAsync(HeroEvent.UPDATED, game);
 
-    // TODO Generate event and add to scenario
+    switch (heroRoom.status) {
+      case HeroRoomStatus.IN_PROGRESS:
+        this.scenario.addScript(this.roomEventGenerator.generateEvent());
+        return;
+      case HeroRoomStatus.PASSED:
+        const { heroMove } = await this.inquirer.ask<HeroMoveParams>(HERO_MOVE_QS, {
+          [HERO_MOVE]: undefined,
+          walls: level.getRoom(location.x, location.y).walls,
+        });
+
+        this.move(location, heroMove);
+
+        // Check if already been there
+        if (hero.getRoomByLocation(location)) {
+          Logger.warn(`You've been there before\n\n`, null, { timestamp: false });
+        }
+
+        await this.processLocation(location);
+        break;
+    }
   }
 
   private move(location: HeroLocation, where: HeroMove): void {
@@ -74,16 +92,15 @@ export class HeroMoveScript implements IScript {
   }
 
   private exit(): void {
-    Logger.verbose(`Your hero runs away ingloriously. History does not like cowards! GoodBy`, null, {
+    Logger.warn(`Your hero runs away ingloriously. History does not like cowards! GoodBy`, null, {
       timestamp: false,
     });
   }
 
-  private async enter(): Promise<void> {
+  private async enterCave(): Promise<void> {
     const game = this.context.get<Game>('game');
-    const level = game.getLevel();
-    const hero = game.getHero();
-    Logger.verbose(`You're standing in front of the entrance to the cave and examine it with powerful gaze`, null, {
+
+    Logger.warn(`You're standing in front of the entrance to the cave and examine it with powerful gaze\n\n`, null, {
       timestamp: false,
     });
     const { promptedEnter } = await this.inquirer.ask<HeroEnterParams>(HERO_ENTER_QS, {
@@ -94,18 +111,21 @@ export class HeroMoveScript implements IScript {
     }
     const location: HeroLocation = { x: 0, y: 0 };
 
-    this.enterRoom(hero, level, location);
+    await this.enterRoom(location);
 
-    Logger.verbose(`You've entered to the cave and see the empty room [${location.x}, ${location.y}]`, null, {
+    Logger.verbose(`You've entered to the cave and see the empty room [${location.x}, ${location.y}]\n\n`, null, {
       timestamp: false,
     });
 
     await this.eventEmitter.emitAsync(HeroEvent.UPDATED, game);
 
-    // TODO: Add Event with empty strategy
+    this.scenario.addScript(this.autoRewardRoomEventScript);
   }
 
-  private enterRoom(hero: Hero, level: Level, location: HeroLocation): void {
+  private async enterRoom(location: HeroLocation): Promise<void> {
+    const game = this.context.get<Game>('game');
+    const level = game.getLevel();
+    const hero = game.getHero();
     hero
       .addRoom({
         uuid: Utils.generateUuid(),
@@ -113,5 +133,7 @@ export class HeroMoveScript implements IScript {
         levelRoom: level.getRoom(location.x, location.y),
       })
       .setLocation(location);
+
+    await this.processLocation(location);
   }
 }

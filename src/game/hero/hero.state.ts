@@ -17,8 +17,8 @@ export class HeroState extends State<Characteristics> {
     manna: 0,
     maxManna: 0,
     physicalAttack: 0,
-    physicalDefence: 0,
+    physicalDefense: 0,
     magicalAttack: 0,
-    magicalDefence: 0,
+    magicalDefense: 0,
   };
 }

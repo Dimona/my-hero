@@ -4,7 +4,7 @@ export type Characteristics = {
   manna: number;
   maxManna: number;
   physicalAttack: number;
-  physicalDefence: number;
+  physicalDefense: number;
   magicalAttack: number;
-  magicalDefence: number;
+  magicalDefense: number;
 };

@@ -6,7 +6,7 @@ export const HumanTemplate: Characteristics = {
   manna: 100,
   maxManna: 100,
   physicalAttack: 20,
-  physicalDefence: 20,
+  physicalDefense: 20,
   magicalAttack: 20,
-  magicalDefence: 20,
+  magicalDefense: 20,
 };

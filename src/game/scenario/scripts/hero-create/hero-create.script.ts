@@ -33,7 +33,7 @@ export class HeroCreateScript implements IScript {
       // TODO: change to internal errors
     }
 
-    Logger.verbose(`Let's create your HERO`);
+    Logger.warn(`Let's create your Hero\n\n`);
 
     const { name, race } = await this.inquirer.ask<HeroCreateParams>(HERO_CREATE_QS, {
       [HERO_NAME]: undefined,
@@ -45,7 +45,7 @@ export class HeroCreateScript implements IScript {
     Logger.verbose(
       `Your hero is ${colors.bold(colors.blue(RaceLabel[hero.getRace()]))} with name ${colors.bold(
         colors.green(hero.getName()),
-      )}`,
+      )}\n\n`,
       { timestamp: false },
     );
 

@@ -22,6 +22,10 @@ export class CustomLogger extends ConsoleLogger {
     console.info(colors.cyan(this.buildMessage(message, ...optionalParams)));
   }
 
+  warn(message: any, ...optionalParams: [...any, string?]): void {
+    console.warn(colors.yellow(this.buildMessage(message, ...optionalParams)));
+  }
+
   error(message: any, ...optionalParams: [...any, string?]): void {
     console.error(colors.red(this.buildMessage(message, ...optionalParams)));
   }

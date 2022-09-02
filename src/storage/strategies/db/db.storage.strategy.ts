@@ -72,9 +72,9 @@ export class DbStorageStrategy implements IStorageStrategy {
     characteristicsEntity.manna = characteristics.maxManna;
     characteristicsEntity.max_manna = characteristics.maxManna;
     characteristicsEntity.physical_attack = characteristics.physicalAttack;
-    characteristicsEntity.physical_defence = characteristics.physicalDefence;
+    characteristicsEntity.physical_defense = characteristics.physicalDefense;
     characteristicsEntity.magical_attack = characteristics.magicalAttack;
-    characteristicsEntity.magical_defence = characteristics.magicalDefence;
+    characteristicsEntity.magical_defense = characteristics.magicalDefense;
 
     heroEntity.characteristics = characteristicsEntity;
 
@@ -183,9 +183,9 @@ export class DbStorageStrategy implements IStorageStrategy {
                   manna: hero.characteristics.manna,
                   maxManna: hero.characteristics.max_manna,
                   physicalAttack: hero.characteristics.physical_attack,
-                  physicalDefence: hero.characteristics.physical_defence,
+                  physicalDefense: hero.characteristics.physical_defense,
                   magicalAttack: hero.characteristics.magical_attack,
-                  magicalDefence: hero.characteristics.magical_defence,
+                  magicalDefense: hero.characteristics.magical_defense,
                 },
               },
             }
