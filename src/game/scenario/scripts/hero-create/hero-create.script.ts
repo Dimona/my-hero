@@ -15,6 +15,7 @@ import { RaceLabel } from '@game/hero/hero.enums';
 import { InjectScenario } from '@game/scenario/scenario.inject.decorator';
 import { ScriptCollection } from '@game/scenario/script.collection';
 import { HeroMoveScript } from '@game/scenario/scripts/hero-move/hero-move.script';
+import { Graphic } from '@graphics/renderers';
 
 @Injectable()
 export class HeroCreateScript implements IScript {
@@ -42,12 +43,7 @@ export class HeroCreateScript implements IScript {
 
     const hero = await this.heroService.create(game, name, race);
 
-    Logger.verbose(
-      `Your hero is ${colors.bold(colors.blue(RaceLabel[hero.getRace()]))} with name ${colors.bold(
-        colors.green(hero.getName()),
-      )}\n\n`,
-      { timestamp: false },
-    );
+    Graphic.hero(hero);
 
     this.scenario.addScript(this.heroMoveScript);
   }

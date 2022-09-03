@@ -4,8 +4,7 @@ import { GameEvent } from '@game/game.enums';
 import { Game } from '@game/game';
 import { StorageEvents } from '@storage/storage.enums';
 import { LevelEvent } from '@game/level/level.enums';
-import { HeroEvent, RaceLabel } from '@game/hero/hero.enums';
-import colors from 'colors';
+import { HeroEvent } from '@game/hero/hero.enums';
 import { Graphic } from '@graphics/renderers';
 
 @Injectable()
@@ -23,14 +22,7 @@ export class OutputService {
 
     Graphic.level(payload.getLevel());
 
-    const hero = payload.getHero();
-    Logger.verbose(
-      `Your hero is ${colors.bold(colors.blue(RaceLabel[hero.getRace()]))} with name ${colors.bold(
-        colors.green(hero.getName()),
-      )}`,
-      null,
-      { timestamp: false },
-    );
+    Graphic.hero(payload.getHero());
   }
 
   @OnEvent(StorageEvents.SAVED, { async: false })

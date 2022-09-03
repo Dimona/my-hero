@@ -1,7 +1,7 @@
 import { CommandFactory } from 'nest-commander';
 import { AppModule } from '@app/app.module';
-import { WinstonModule } from 'nest-winston';
-import { winstonLoggerConfig } from './logger/winston/winston.logger.config';
+// import { WinstonModule } from 'nest-winston';
+// import { winstonLoggerConfig } from './logger/winston/winston.logger.config';
 import { CustomLogger } from './logger/custom/custom.logger';
 
 const bootstrap = async () => {

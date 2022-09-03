@@ -3,7 +3,7 @@ import { levelConfig } from '@game/level/level.config';
 import { StorageModule } from '@storage/storage.module';
 import { DbStorageStrategy } from '@db-storage/db.storage.strategy';
 import { GameService } from '@game/game.service';
-import { GameCommand } from '@game/game.command';
+import { GameCommand } from '@game/commands/game.command';
 import { PlayerService } from '@game/player/player.service';
 import { PlayerScript } from '@game/scenario/scripts/player/player.script';
 import { PlayerQuestions } from '@game/scenario/scripts/player/player.questions';
@@ -30,6 +30,7 @@ import { RoomEventCompleteScript } from '@game/scenario/scripts/room-event/room-
 @Module({
   imports: [StorageModule.register(DbStorageStrategy), ConfigModule.forFeature(levelConfig)],
   providers: [
+    // Commands
     GameCommand,
     // Player
     PlayerService,

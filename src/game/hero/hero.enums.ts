@@ -32,3 +32,12 @@ export enum HeroRoomStatus {
   IN_PROGRESS = 'IN_PROGRESS',
   PASSED = 'PASSED',
 }
+
+export enum CharacteristicLabel {
+  health = 'health',
+  manna = 'manna',
+  physicalAttack = 'physical attack',
+  physicalDefense = 'physical defense',
+  magicalAttack = 'magical attack',
+  magicalDefense = 'magical defense',
+}

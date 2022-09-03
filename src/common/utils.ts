@@ -12,4 +12,11 @@ export class Utils {
   static randomBoolean(): boolean {
     return Math.random() < 0.5;
   }
+
+  static toStaticString(str: string, length: number, fillChar: string = ' '): string {
+    if (str.length > length) {
+      return str;
+    }
+    return `${str}${Array.from({ length: length - str.length }, () => fillChar).join('')}`;
+  }
 }
