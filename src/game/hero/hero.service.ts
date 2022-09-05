@@ -3,12 +3,13 @@ import { Creatable, Restorable } from '@game/game.interfaces';
 import { InjectStorage } from '@storage/storage.inject.decorator';
 import { Storage } from '@storage/storage';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { HeroEvent, Race } from '@game/hero/hero.enums';
+import { HeroEvent } from '@game/hero/hero.enums';
 import { Game } from '@game/game';
 import { Hero } from '@game/hero/hero';
 import { Snapshot } from '@storage/storage.types';
 import { HeroState } from '@game/hero/hero.state';
-import { HeroUtils } from '@game/hero/hero.utils';
+import { Race } from '@game/npc/npc.enums';
+import { NpcUtils } from '@game/npc/npc.utils';
 
 @Injectable()
 export class HeroService implements Creatable, Restorable {
@@ -16,7 +17,7 @@ export class HeroService implements Creatable, Restorable {
 
   async create(game: Game, name: string, race: Race): Promise<Hero> {
     const hero = Hero.create({ name, race }).setState(HeroState.create());
-    HeroUtils.applyRace(hero, race);
+    NpcUtils.applyRace(hero, race);
 
     game.setHero(hero);
 

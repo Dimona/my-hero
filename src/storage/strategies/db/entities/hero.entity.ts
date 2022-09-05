@@ -1,9 +1,9 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryColumn } from 'typeorm';
 import { Uuid } from '@game/game.types';
-import { Race } from '@game/hero/hero.enums';
 import { GameEntity } from '@db-storage/entities/game.entity';
 import { CharacteristicsEntity } from '@db-storage/entities/characteristics.entity';
-import { HeroRoomEntity } from "@db-storage/entities/hero-room.entity";
+import { HeroRoomEntity } from '@db-storage/entities/hero-room.entity';
+import { Race } from '@game/npc/npc.enums';
 
 @Entity({ name: 'heroes' })
 export class HeroEntity {

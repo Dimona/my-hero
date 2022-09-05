@@ -4,7 +4,7 @@ import { Uuid } from '@game/game.types';
 
 @Entity({ name: 'levels' })
 export class LevelEntity {
-  @PrimaryColumn({ type: 'varchar', length: 100, nullable: false })
+  @PrimaryColumn({ type: 'uuid', nullable: false })
   id: Uuid;
 
   @Column({ type: 'varchar', length: 100, default: 'Scary level', nullable: false })

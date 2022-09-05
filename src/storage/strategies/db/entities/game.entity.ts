@@ -24,5 +24,5 @@ export class GameEntity {
 
   @OneToMany(() => HeroEntity, hero => hero.game, { cascade: true })
   @JoinColumn({ name: 'id', referencedColumnName: 'game_id' })
-  heroes: HeroEntity[];
+  heroes?: HeroEntity[];
 }

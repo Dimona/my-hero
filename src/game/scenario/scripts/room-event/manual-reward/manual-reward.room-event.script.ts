@@ -14,6 +14,7 @@ import { ScriptCollection } from '@game/scenario/script.collection';
 import { RoomEventEvent } from '@game/scenario/scripts/room-event/room-event.enums';
 import { AUTO_REWARD } from '@game/scenario/scripts/room-event/reward/reward.constants';
 import { RoomEventCompleteScript } from '@game/scenario/scripts/room-event/room-event.complete.script';
+import { Graphic } from '@graphics/renderers';
 
 @Injectable()
 export class ManualRewardRoomEventScript implements IRoomEventScript {
@@ -28,7 +29,7 @@ export class ManualRewardRoomEventScript implements IRoomEventScript {
 
   async run(): Promise<void> {
     Logger.warn(`You are entering the room but it's empty`, null, { timestamp: false });
-    Logger.warn(`You found magical device which will give you award by your choice\n\n`, null, { timestamp: false });
+    Logger.warn(`You found magical device which will give you award by your choice\n`, null, { timestamp: false });
 
     const { roomEventReward } = await this.inquirer.ask<RoomEventRewardParams>(ROOM_EVENT_REWARD_QS, {
       [ROOM_EVENT_REWARD]: undefined,
@@ -38,10 +39,18 @@ export class ManualRewardRoomEventScript implements IRoomEventScript {
     const game = this.context.get<Game>('game');
     const hero = game.getHero();
     hero.applyCharacteristic(roomEventReward, AUTO_REWARD);
+    if (roomEventReward === 'maxManna') {
+      hero.applyCharacteristic('manna', AUTO_REWARD);
+    }
+    if (roomEventReward === 'maxHealth') {
+      hero.applyCharacteristic('health', AUTO_REWARD);
+    }
 
-    Logger.verbose(`Your characteristic '${roomEventReward}' were updated by value '+${AUTO_REWARD}'\n\n`, null, {
+    Logger.verbose(`Your characteristic '${roomEventReward}' were updated by value '+${AUTO_REWARD}'\n`, null, {
       timestamp: false,
     });
+
+    Graphic.hero(hero);
 
     await this.eventEmitter.emitAsync(RoomEventEvent.REWARDED, game);
 

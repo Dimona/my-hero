@@ -10,8 +10,6 @@ import {
   HeroCreateParams,
 } from '@game/scenario/scripts/hero-create/hero-create.questions';
 import { HeroService } from '@game/hero/hero.service';
-import colors from 'colors';
-import { RaceLabel } from '@game/hero/hero.enums';
 import { InjectScenario } from '@game/scenario/scenario.inject.decorator';
 import { ScriptCollection } from '@game/scenario/script.collection';
 import { HeroMoveScript } from '@game/scenario/scripts/hero-move/hero-move.script';
@@ -34,7 +32,7 @@ export class HeroCreateScript implements IScript {
       // TODO: change to internal errors
     }
 
-    Logger.warn(`Let's create your Hero\n\n`);
+    Logger.warn(`Let's create your Hero\n\n`, null, { timestamp: null });
 
     const { name, race } = await this.inquirer.ask<HeroCreateParams>(HERO_CREATE_QS, {
       [HERO_NAME]: undefined,

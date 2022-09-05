@@ -10,6 +10,7 @@ import { AUTO_REWARD } from '@game/scenario/scripts/room-event/reward/reward.con
 import { RewardUtils } from '@game/scenario/scripts/room-event/reward/reward.utils';
 import { RoomEventEvent } from '@game/scenario/scripts/room-event/room-event.enums';
 import { RoomEventCompleteScript } from '@game/scenario/scripts/room-event/room-event.complete.script';
+import { Graphic } from '@graphics/renderers';
 
 @Injectable()
 export class AutoRewardRoomEventScript implements IRoomEventScript {
@@ -26,15 +27,23 @@ export class AutoRewardRoomEventScript implements IRoomEventScript {
     Logger.warn(`You are entering the room and it's empty.`, null, { timestamp: false });
     Logger.verbose(`But you are a hero and will be rewarded for your courage.\n\n`, null, { timestamp: false });
 
-    const { characteristic } = RewardUtils.getRandom();
+    const { characteristic } = RewardUtils.getRandomReward();
 
     const game = this.context.get<Game>('game');
     const hero = game.getHero();
     hero.applyCharacteristic(characteristic, AUTO_REWARD);
+    if (characteristic === 'maxManna') {
+      hero.applyCharacteristic('manna', AUTO_REWARD);
+    }
+    if (characteristic === 'maxHealth') {
+      hero.applyCharacteristic('health', AUTO_REWARD);
+    }
 
     Logger.verbose(`Your characteristic '${characteristic}' were updated by value '+${AUTO_REWARD}'\n\n`, null, {
       timestamp: false,
     });
+
+    Graphic.hero(hero);
 
     await this.eventEmitter.emitAsync(RoomEventEvent.REWARDED, game);
 

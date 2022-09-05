@@ -12,7 +12,7 @@ export class HeroCreate1661878157678 implements MigrationInterface {
             constraint heroes_player_id_fk references players (id) on delete cascade,
           race varchar(255) not null,
           characteristics_id uuid not null 
-            constraint heroes_characteristics_id_fk references characteristics (id) on delete cascade               
+            constraint heroes_characteristics_id_fk references characteristics (id) on delete set null               
         );
 
     `);

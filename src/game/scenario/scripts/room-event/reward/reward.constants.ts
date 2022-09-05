@@ -1,8 +1,9 @@
 import { RewardsConfig } from '@game/scenario/scripts/room-event/reward/reward.config';
-import { CharacteristicLabel } from "@game/hero/hero.enums";
+import { CharacteristicLabel } from '@game/hero/hero.enums';
 
 export const AUTO_REWARD = 5;
 export const AUTO_TRAP_REWARD = -5;
+export const BATTLE_REWARD = 10;
 
 export const REWARDS: RewardsConfig[] = [
   {

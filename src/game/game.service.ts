@@ -32,8 +32,9 @@ export class GameService implements Restorable {
     game.setStartedAt(new Date());
     game.setStatus(GameStatus.STARTED);
     game.setPlayer(player);
+    game.setLevel(await this.levelService.create(game));
 
-    await this.eventEmitter.emitAsync(GameEvent.STARTED, game);
+    await this.eventEmitter.emitAsync(GameEvent.CREATED, game);
 
     return game;
   }

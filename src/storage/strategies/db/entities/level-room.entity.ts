@@ -7,7 +7,7 @@ export class LevelRoomEntity {
   @PrimaryColumn({ type: 'uuid', nullable: false })
   id: Uuid;
 
-  @Column({ type: 'uuid', length: 100, nullable: false })
+  @Column({ type: 'uuid', nullable: false })
   level_id: Uuid;
 
   @Column({ type: 'integer' })

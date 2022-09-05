@@ -31,4 +31,8 @@ export class DefaultStorageStrategy implements IStorageStrategy {
   async saveHero(game: Game): Promise<void> {
     // Do nothing
   }
+
+  async deleteGame(game: Game): Promise<void> {
+    // Do nothing
+  }
 }

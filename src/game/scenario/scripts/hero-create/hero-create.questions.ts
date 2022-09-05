@@ -1,6 +1,6 @@
 import { Question, QuestionSet } from 'nest-commander';
-import { Race, RaceLabel } from '@game/hero/hero.enums';
 import { Names } from 'fantasy-content-generator';
+import { Race, RaceLabel } from '@game/npc/npc.enums';
 
 export const HERO_CREATE_QS = 'hero-create.qs';
 

@@ -1,4 +1,4 @@
-import { Command, CommandRunner, InquirerService } from 'nest-commander';
+import { Command, CommandRunner } from 'nest-commander';
 import { Logger } from '@nestjs/common';
 import { GAME } from '@game/game.constants';
 import { InjectScenario } from '@game/scenario/scenario.inject.decorator';
@@ -22,30 +22,23 @@ export class GameCommand extends CommandRunner {
   }
 
   async run(): Promise<void> {
-    try {
-      Logger.log('*********************************************************************************', null, {
-        timestamp: false,
-      });
-      Graphic.logo();
+    Logger.log('*********************************************************************************', null, {
+      timestamp: false,
+    });
+    Graphic.logo();
 
-      this.scenario.addScript(this.playerScript).addScript(this.gameInitScript);
+    this.scenario.addScript(this.playerScript).addScript(this.gameInitScript);
 
-      const iterator = this.scenario.getIterator();
-      while (iterator.valid()) {
-        const script = iterator.current();
+    const iterator = this.scenario.getIterator();
+    while (iterator.valid()) {
+      const script = iterator.current();
 
-        await script.run();
-        iterator.next();
-      }
-
-      Logger.log('************************************ THE END ************************************', null, {
-        timestamp: false,
-      });
-    } catch (err) {
-      Logger.error(err);
-      // eslint-disable-next-line no-console
-      console.trace(err);
-      process.exit(1);
+      await script.run();
+      iterator.next();
     }
+
+    Logger.log('************************************ THE END ************************************', null, {
+      timestamp: false,
+    });
   }
 }

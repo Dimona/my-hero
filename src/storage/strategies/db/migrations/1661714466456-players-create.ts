@@ -8,7 +8,7 @@ export class PlayersCreate1661714466456 implements MigrationInterface {
         name varchar(255) not null,
         created_at timestamp without time zone default now() not null,
         active_game_id uuid
-          constraint players_game_id_fk references games(id)
+          constraint players_game_id_fk references games(id) on delete set null 
       );
     `);
   }

@@ -9,17 +9,17 @@ import { StorageEvents } from '@storage/storage.enums';
 import { Player } from '@game/player/player';
 import { LevelEvent } from '@game/level/level.enums';
 import { HeroEvent } from '@game/hero/hero.enums';
-import { Hero } from '@game/hero/hero';
 import { RoomEventEvent } from '@game/scenario/scripts/room-event/room-event.enums';
 
 @Injectable()
 export class StorageService {
   constructor(@InjectStorage() private readonly storage: Storage, private readonly eventEmitter: EventEmitter2) {}
 
-  @OnEvent(GameEvent.STARTED, { async: false })
+  @OnEvent(GameEvent.CREATED, { async: false })
   async handleGameStarted(payload: Game): Promise<void> {
     await this.storage.saveGame(payload);
 
+    this.eventEmitter.emit(GameEvent.STARTED, payload);
     this.eventEmitter.emit(StorageEvents.SAVED, 'game');
   }
 
@@ -59,5 +59,15 @@ export class StorageService {
   @OnEvent(RoomEventEvent.PASSED, { async: false })
   async handleRoomPassed(payload: Game): Promise<void> {
     await this.storage.saveHero(payload);
+  }
+
+  @OnEvent(HeroEvent.DEAD, { async: false })
+  async handleHeroDead(payload: Game): Promise<void> {
+    await this.storage.deleteGame(payload);
+  }
+
+  @OnEvent(GameEvent.FINISHED, { async: false })
+  async handleGameFinished(payload: Game): Promise<void> {
+    await this.storage.deleteGame(payload);
   }
 }

@@ -1,11 +1,10 @@
-import { HeroRoomStatus, Race } from '@game/hero/hero.enums';
+import { HeroRoomStatus } from '@game/hero/hero.enums';
 import { Uuid } from '@game/game.types';
 import { Room } from '@game/level/level.types';
+import { NpcCreateParams } from '@game/npc/npc.types';
 
-export type HeroCreateParams = {
+export type HeroCreateParams = NpcCreateParams & {
   uuid?: Uuid;
-  name: string;
-  race: Race;
 };
 
 export type HeroRoom = {
@@ -16,8 +15,3 @@ export type HeroRoom = {
 };
 
 export type HeroRooms = Record<string, HeroRoom>;
-
-export type HeroLocation = {
-  x: number;
-  y: number;
-};

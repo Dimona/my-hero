@@ -3,8 +3,9 @@ import { Uuid } from '@game/game.types';
 import { GameStatus } from '@game/game.enums';
 import { IStorageStrategy } from '@storage/storage.interfaces';
 import { StorageStrategyType } from '@storage/storage.enums';
-import { HeroRoomStatus, Race } from '@game/hero/hero.enums';
+import { HeroRoomStatus } from '@game/hero/hero.enums';
 import { Characteristics as TCharacteristics } from '@game/common/common.types';
+import { Race } from '@game/npc/npc.enums';
 
 export type StorageStrategyTyped = ClassConstructor<IStorageStrategy> & { type: StorageStrategyType };
 

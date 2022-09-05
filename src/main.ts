@@ -6,6 +6,10 @@ import { CustomLogger } from './logger/custom/custom.logger';
 
 const bootstrap = async () => {
   await CommandFactory.run(AppModule, {
+    errorHandler: err => {
+      console.trace(err);
+      process.exit(1);
+    },
     logger: new CustomLogger('MyHero'),
     // logger: WinstonModule.createLogger(winstonLoggerConfig),
   });

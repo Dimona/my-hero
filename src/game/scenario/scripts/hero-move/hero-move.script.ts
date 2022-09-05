@@ -7,12 +7,15 @@ import { HeroEvent, HeroMove, HeroRoomStatus } from '@game/hero/hero.enums';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { InquirerService } from 'nest-commander';
 import { HERO_MOVE, HERO_MOVE_QS, HeroMoveParams } from '@game/scenario/scripts/hero-move/hero-move.questions';
-import { HeroLocation } from '@game/hero/hero.types';
 import { HERO_ENTER_QS, HeroEnterParams, PROMPTED_ENTER } from '@game/scenario/scripts/hero-move/hero-enter.questions';
 import { InjectScenario } from '@game/scenario/scenario.inject.decorator';
 import { ScriptCollection } from '@game/scenario/script.collection';
 import { AutoRewardRoomEventScript } from '@game/scenario/scripts/room-event/auto-reward/auto-reward.room-event.script';
 import { RoomEventGenerator } from '@game/scenario/scripts/room-event/room-event.generator';
+import { Graphic } from '@graphics/renderers';
+import { TLocation } from '@game/common/common.types';
+import { EXIT_FROM_CAVE } from '@game/scenario/scripts/hero-move/hero-move.constants';
+import { GameEvent } from '@game/game.enums';
 
 @Injectable()
 export class HeroMoveScript implements IScript {
@@ -38,7 +41,7 @@ export class HeroMoveScript implements IScript {
     await this.processLocation(location);
   }
 
-  private async processLocation(location: HeroLocation): Promise<void> {
+  private async processLocation(location: TLocation): Promise<void> {
     const game = this.context.get<Game>('game');
     const hero = game.getHero();
     const level = game.getLevel();
@@ -59,14 +62,21 @@ export class HeroMoveScript implements IScript {
       case HeroRoomStatus.PASSED:
         const { heroMove } = await this.inquirer.ask<HeroMoveParams>(HERO_MOVE_QS, {
           [HERO_MOVE]: undefined,
+          location: hero.getLocation(),
           walls: level.getRoom(location.x, location.y).walls,
         });
-
-        this.move(location, heroMove);
+        if (heroMove === EXIT_FROM_CAVE) {
+          await this.eventEmitter.emitAsync(GameEvent.FINISHED, game);
+          return;
+        }
+        this.move(location, heroMove as HeroMove);
+        Graphic.showHeroLevel(level, hero);
 
         // Check if already been there
         if (hero.getRoomByLocation(location)) {
           Logger.warn(`You've been there before\n\n`, null, { timestamp: false });
+        } else {
+          await this.enterRoom(location);
         }
 
         await this.processLocation(location);
@@ -74,7 +84,7 @@ export class HeroMoveScript implements IScript {
     }
   }
 
-  private move(location: HeroLocation, where: HeroMove): void {
+  private move(location: TLocation, where: HeroMove): void {
     switch (where) {
       case HeroMove.LEFT:
         location.y--;
@@ -92,7 +102,7 @@ export class HeroMoveScript implements IScript {
   }
 
   private exit(): void {
-    Logger.warn(`Your hero runs away ingloriously. History does not like cowards! GoodBy`, null, {
+    Logger.warn(`Your hero runs away ingloriously. History does not like cowards! Goodbye`, null, {
       timestamp: false,
     });
   }
@@ -109,7 +119,7 @@ export class HeroMoveScript implements IScript {
     if (!promptedEnter) {
       return this.exit();
     }
-    const location: HeroLocation = { x: 0, y: 0 };
+    const location: TLocation = { x: 0, y: 0 };
 
     await this.enterRoom(location);
 
@@ -122,7 +132,7 @@ export class HeroMoveScript implements IScript {
     this.scenario.addScript(this.autoRewardRoomEventScript);
   }
 
-  private async enterRoom(location: HeroLocation): Promise<void> {
+  private async enterRoom(location: TLocation): Promise<void> {
     const game = this.context.get<Game>('game');
     const level = game.getLevel();
     const hero = game.getHero();
@@ -133,7 +143,5 @@ export class HeroMoveScript implements IScript {
         levelRoom: level.getRoom(location.x, location.y),
       })
       .setLocation(location);
-
-    await this.processLocation(location);
   }
 }

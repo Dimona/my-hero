@@ -1,16 +1,18 @@
-import { Race } from '@game/hero/hero.enums';
-import { HeroCreateParams, HeroRoom, HeroRooms, HeroLocation } from '@game/hero/hero.types';
+import { HeroCreateParams, HeroRoom, HeroRooms } from '@game/hero/hero.types';
 import { HeroState } from '@game/hero/hero.state';
-import { Characteristics } from '@game/common/common.types';
+import { Characteristics, TLocation } from '@game/common/common.types';
 import { Uuid } from '@game/game.types';
 import { Utils } from '@common/utils';
+import { Race } from '@game/npc/npc.enums';
+import { ILocation } from '@game/hero/hero.interfaces';
+import { ICharacteristicsManager, INpc, IStateManager } from '@game/npc/npc.interfaces';
 
-export class Hero {
+export class Hero implements ILocation, IStateManager<Characteristics>, ICharacteristicsManager, INpc {
   private state: HeroState;
 
   private rooms: HeroRooms = {};
 
-  private location: HeroLocation;
+  private location: TLocation;
 
   private constructor(private readonly uuid: Uuid, private readonly name: string, private readonly race: Race) {}
 
@@ -36,13 +38,17 @@ export class Hero {
     return this;
   }
 
+  getState(): HeroState {
+    return this.state;
+  }
+
   addRoom(room: HeroRoom): this {
     this.rooms[`${room.levelRoom.x}|${room.levelRoom.y}`] = room;
 
     return this;
   }
 
-  getRoomByLocation({ x, y }: HeroLocation): HeroRoom {
+  getRoomByLocation({ x, y }: TLocation): HeroRoom {
     return this.rooms[`${x}|${y}`];
   }
 
@@ -50,37 +56,36 @@ export class Hero {
     return this.rooms;
   }
 
-  setLocation(location: HeroLocation): this {
+  setLocation(location: TLocation): this {
     this.location = location;
 
     return this;
   }
 
-  getLocation(): HeroLocation {
+  getLocation(): TLocation {
     return this.location;
   }
 
-  getState(): HeroState {
-    return this.state;
-  }
-
-  geCharacteristics(): Characteristics {
+  getCharacteristics(): Characteristics {
     return this.state.getState();
   }
 
-  updateCharacteristic(field: keyof Characteristics, value: number): this {
-    this.state.updateField(field, value);
-
-    return this;
-  }
-
   applyCharacteristic(field: keyof Characteristics, value: number): this {
-    this.state.updateField(field, this.state.getState()[field] + value);
+    const state = this.state.getState();
+    let result = state[field] + value;
+    if (result < 0) {
+      result = 0;
+    } else if (field === 'health' && result > state.maxHealth) {
+      result = state.maxHealth;
+    } else if (field === 'manna' && result > state.maxManna) {
+      result = state.maxManna;
+    }
+    this.state.updateField(field, result);
 
     return this;
   }
 
-  updateCharacteristics(values: { [key in keyof Characteristics]: any }): this {
+  updateCharacteristics(values: { [key in keyof Characteristics]?: number }): this {
     this.state.updateFields(values);
 
     return this;

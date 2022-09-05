@@ -24,6 +24,7 @@ export class DbStorageStrategy implements IStorageStrategy {
     @InjectRepository(GameEntity) private readonly gameRepo: Repository<GameEntity>,
     @InjectRepository(PlayerEntity) private readonly playerRepo: Repository<PlayerEntity>,
     @InjectRepository(HeroEntity) private readonly heroRepo: Repository<HeroEntity>,
+    @InjectRepository(CharacteristicsEntity) private readonly characteristicsRepo: Repository<CharacteristicsEntity>,
   ) {}
 
   private buildLevelRelation(game: Game): LevelEntity {
@@ -56,6 +57,9 @@ export class DbStorageStrategy implements IStorageStrategy {
 
   async saveHero(game: Game): Promise<void> {
     const hero = game.getHero();
+    if (!hero) {
+      return;
+    }
     const player = game.getPlayer();
     const heroEntity = new HeroEntity();
     heroEntity.id = hero.getUuid();
@@ -65,7 +69,7 @@ export class DbStorageStrategy implements IStorageStrategy {
     heroEntity.player_id = player.getUuid();
     heroEntity.characteristics_id = hero.getState().getUuid();
     const characteristicsEntity = new CharacteristicsEntity();
-    const characteristics = hero.geCharacteristics();
+    const characteristics = hero.getCharacteristics();
     characteristicsEntity.id = heroEntity.characteristics_id;
     characteristicsEntity.health = characteristics.health;
     characteristicsEntity.max_health = characteristics.maxHealth;
@@ -79,8 +83,10 @@ export class DbStorageStrategy implements IStorageStrategy {
     heroEntity.characteristics = characteristicsEntity;
 
     const location = hero.getLocation();
-    heroEntity.x = location.x;
-    heroEntity.y = location.y;
+    if (location) {
+      heroEntity.x = location.x;
+      heroEntity.y = location.y;
+    }
 
     // Hero rooms
     const heroRoomEntities: HeroRoomEntity[] = [];
@@ -104,6 +110,7 @@ export class DbStorageStrategy implements IStorageStrategy {
     gameEntity.status = game.getStatus();
     gameEntity.id = game.getUuid();
     gameEntity.started_at = game.getStartedAt();
+    await this.gameRepo.save(gameEntity);
     gameEntity.level = this.buildLevelRelation(game);
 
     await this.saveHero(game);
@@ -124,11 +131,8 @@ export class DbStorageStrategy implements IStorageStrategy {
           'heroes.rooms.level_room',
         ],
       });
-      const {
-        heroes = [],
-        level,
-        level: { rooms = [] },
-      } = game;
+      const { heroes = [], level } = game;
+      const { rooms = [] } = level || {};
       const hero = heroes.find(_hero => _hero.player_id === player.getUuid());
 
       return {
@@ -214,5 +218,11 @@ export class DbStorageStrategy implements IStorageStrategy {
     }
 
     return { uuid: player.id, activeGameId: player.active_game_id, name: player.name };
+  }
+
+  async deleteGame(game: Game): Promise<void> {
+    const characteristicsId = game.getHero().getState().getUuid();
+    await this.gameRepo.delete({ id: game.getUuid() });
+    await this.characteristicsRepo.delete({ id: characteristicsId });
   }
 }

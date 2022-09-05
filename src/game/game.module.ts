@@ -26,6 +26,10 @@ import { AutoTrapRoomEventScript } from '@game/scenario/scripts/room-event/auto-
 import { ManualRewardRoomEventScript } from '@game/scenario/scripts/room-event/manual-reward/manual-reward.room-event.script';
 import { RewardQuestions } from '@game/scenario/scripts/room-event/reward/reward.questions';
 import { RoomEventCompleteScript } from '@game/scenario/scripts/room-event/room-event.complete.script';
+import { BattleScript } from '@game/scenario/scripts/room-event/battle/battle.script';
+import { BattleRewardRoomEventScript } from '@game/scenario/scripts/room-event/battle/battle-reward.room-event.script';
+import { BattleAttackQuestions } from '@game/scenario/scripts/room-event/battle/battle-attack.questions';
+import { BattleTurnInitQuestions } from '@game/scenario/scripts/room-event/battle/turn-init.questions';
 
 @Module({
   imports: [StorageModule.register(DbStorageStrategy), ConfigModule.forFeature(levelConfig)],
@@ -56,8 +60,12 @@ import { RoomEventCompleteScript } from '@game/scenario/scripts/room-event/room-
     AutoRewardRoomEventScript,
     AutoTrapRoomEventScript,
     ManualRewardRoomEventScript,
+    BattleRewardRoomEventScript,
     RoomEventCompleteScript,
+    BattleScript,
     RewardQuestions,
+    BattleAttackQuestions,
+    BattleTurnInitQuestions,
     // Scenario
     {
       provide: SCENARIO,

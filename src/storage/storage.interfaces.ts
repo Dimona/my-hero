@@ -9,6 +9,7 @@ export interface IStorageStrategy {
   savePlayer(player: Player): Promise<void>;
   getPlayer(uuid: Uuid): Promise<Snapshot.Player | null>;
   saveHero(game: Game): Promise<void>;
+  deleteGame(game: Game): Promise<void>;
 }
 
 export interface IStorage extends IStorageStrategy {}

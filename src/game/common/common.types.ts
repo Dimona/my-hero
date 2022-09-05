@@ -8,3 +8,8 @@ export type Characteristics = {
   magicalAttack: number;
   magicalDefense: number;
 };
+
+export type TLocation = {
+  x: number;
+  y: number;
+};

@@ -26,4 +26,8 @@ export class Storage implements IStorage {
   saveHero(game: Game): Promise<void> {
     return this.strategy.saveHero(game);
   }
+
+  deleteGame(game: Game): Promise<void> {
+    return this.strategy.deleteGame(game);
+  }
 }

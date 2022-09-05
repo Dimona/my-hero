@@ -6,6 +6,7 @@ import { StorageEvents } from '@storage/storage.enums';
 import { LevelEvent } from '@game/level/level.enums';
 import { HeroEvent } from '@game/hero/hero.enums';
 import { Graphic } from '@graphics/renderers';
+import { RoomEventEvent } from '@game/scenario/scripts/room-event/room-event.enums';
 
 @Injectable()
 export class OutputService {
@@ -13,16 +14,27 @@ export class OutputService {
   handleGameStarted(payload: Game) {
     Logger.log(`Game was successfully started, ID: ${payload.getUuid()}`);
 
-    Graphic.level(payload.getLevel());
+    const level = payload.getLevel();
+
+    if (!level) {
+      return;
+    }
+    Graphic.showLevel(level);
   }
 
   @OnEvent(GameEvent.RESTORED, { async: false })
   handleGameRestored(payload: Game) {
     Logger.log(`Game was successfully restored, ID: ${payload.getUuid()}`);
 
-    Graphic.level(payload.getLevel());
+    const level = payload.getLevel();
+    const hero = payload.getHero();
 
-    Graphic.hero(payload.getHero());
+    Graphic.showLevel(level);
+
+    if (hero) {
+      Graphic.hero(hero);
+      Graphic.showHeroLevel(level, hero);
+    }
   }
 
   @OnEvent(StorageEvents.SAVED, { async: false })
@@ -48,5 +60,16 @@ export class OutputService {
   @OnEvent(HeroEvent.CREATED, { async: false })
   handleHeroCreated() {
     Logger.log(`New hero was successfully created`);
+  }
+
+  @OnEvent(RoomEventEvent.PASSED, { async: false })
+  handleRoomPassed(payload: Game) {
+    Graphic.showHeroLevel(payload.getLevel(), payload.getHero());
+  }
+
+  @OnEvent(GameEvent.FINISHED, { async: false })
+  async handleGameFinished(payload: Game): Promise<void> {
+    Graphic.hero(payload.getHero());
+    Logger.log('You successfully passed cave and escaped. Congratulations!!!!!');
   }
 }
