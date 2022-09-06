@@ -32,7 +32,7 @@ export class HeroCreateScript implements IScript {
       // TODO: change to internal errors
     }
 
-    Logger.warn(`Let's create your Hero\n\n`, null, { timestamp: null });
+    Logger.warn(`Let's create your Hero\n`, null, { timestamp: null });
 
     const { name, race } = await this.inquirer.ask<HeroCreateParams>(HERO_CREATE_QS, {
       [HERO_NAME]: undefined,

@@ -22,7 +22,9 @@ export class GameCommand extends CommandRunner {
   }
 
   async run(): Promise<void> {
-    Logger.log('*********************************************************************************');
+    Logger.log('*********************************************************************************', null, {
+      timestamp: false,
+    });
     Graphic.logo();
 
     this.scenario.addScript(this.playerScript).addScript(this.gameInitScript);
@@ -35,6 +37,8 @@ export class GameCommand extends CommandRunner {
       iterator.next();
     }
 
-    Logger.log('************************************ THE END ************************************');
+    Logger.log('************************************ THE END ************************************', null, {
+      timestamp: false,
+    });
   }
 }

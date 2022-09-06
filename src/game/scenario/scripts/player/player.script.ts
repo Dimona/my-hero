@@ -21,7 +21,7 @@ export class PlayerScript implements IScript {
       ? `Hello ${colors.bold(colors.green(player.getName()))}`
       : `Player with id '${playerId}' was not found. Please correct or delete your env variable value PLAYER_ID`;
 
-    Logger.verbose(colors.bold(`${message}\n\n`));
+    Logger.verbose(colors.bold(`${message}\n`));
   }
 
   private async createPlayer(): Promise<void> {

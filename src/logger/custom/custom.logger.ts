@@ -15,12 +15,12 @@ export class CustomLogger extends ConsoleLogger {
   }
 
   log(message: any, ...optionalParams: [...any, string?]): void {
-    const [, options = <LoggerOptions>{}] = optionalParams;
-    if (options.timestamp === undefined) {
+    const [, options = <LoggerOptions>{}, ...rest] = optionalParams;
+    if (options?.timestamp === undefined) {
       options.timestamp = true;
     }
 
-    console.info(colors.dim(colors.blue(this.buildMessage(message, ...optionalParams))));
+    console.info(colors.dim(colors.blue(this.buildMessage(message, ...[optionalParams[0], options, ...rest]))));
   }
 
   verbose(message: any, ...optionalParams: [...any, string?]): void {

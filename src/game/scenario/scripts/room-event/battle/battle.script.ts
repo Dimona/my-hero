@@ -46,7 +46,7 @@ export class BattleScript implements IRoomEventScript {
     const npc = NpcGenerator.generate();
     Graphic.hero(hero);
     Graphic.hero(npc, { isHero: false });
-    Logger.verbose(`${colors.bold(colors.green(npc.getName()))} Let's have a battle\n\n`, null, { timestamp: false });
+    Logger.verbose(`${colors.bold(colors.green(npc.getName()))} Let's have a battle\n`, null, { timestamp: false });
 
     await this.eventEmitter.emitAsync(RoomEventEvent.BATTLE_STARTED, game);
 

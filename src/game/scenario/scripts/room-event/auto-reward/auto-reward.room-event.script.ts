@@ -25,7 +25,7 @@ export class AutoRewardRoomEventScript implements IRoomEventScript {
 
   async run(): Promise<void> {
     Logger.warn(`You are entering the room and it's empty.`);
-    Logger.verbose(`But you are a hero and will be rewarded for your courage.\n\n`);
+    Logger.verbose(`But you are a hero and will be rewarded for your courage.\n`);
 
     const { characteristic } = RewardUtils.getRandomReward();
 
@@ -39,7 +39,7 @@ export class AutoRewardRoomEventScript implements IRoomEventScript {
       hero.applyCharacteristic('health', AUTO_REWARD);
     }
 
-    Logger.verbose(`Your characteristic '${characteristic}' were updated by value '+${AUTO_REWARD}'\n\n`);
+    Logger.verbose(`Your characteristic '${characteristic}' were updated by value '+${AUTO_REWARD}'\n`);
 
     Graphic.hero(hero);
 
