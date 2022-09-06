@@ -24,8 +24,8 @@ export class AutoTrapRoomEventScript implements IRoomEventScript {
   ) {}
 
   async run(): Promise<void> {
-    Logger.warn(`You are entering the room.`, null, { timestamp: false });
-    Logger.error(`You fall into trap.`, null, { timestamp: false });
+    Logger.warn(`You are entering the room.`);
+    Logger.error(`You fall into trap.`);
 
     const { characteristic } = RewardUtils.getRandomReward();
 
@@ -39,9 +39,7 @@ export class AutoTrapRoomEventScript implements IRoomEventScript {
       hero.applyCharacteristic('health', AUTO_TRAP_REWARD);
     }
 
-    Logger.error(`Your characteristic '${characteristic}' were updated by value '${AUTO_TRAP_REWARD}'\n`, null, {
-      timestamp: false,
-    });
+    Logger.error(`Your characteristic '${characteristic}' were updated by value '${AUTO_TRAP_REWARD}'\n`);
 
     Graphic.hero(hero);
 

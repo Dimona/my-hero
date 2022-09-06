@@ -21,7 +21,7 @@ export class PlayerScript implements IScript {
       ? `Hello ${colors.bold(colors.green(player.getName()))}`
       : `Player with id '${playerId}' was not found. Please correct or delete your env variable value PLAYER_ID`;
 
-    Logger.verbose(colors.bold(`${message}\n\n`), null, { timestamp: false });
+    Logger.verbose(colors.bold(`${message}\n\n`));
   }
 
   private async createPlayer(): Promise<void> {
@@ -31,7 +31,7 @@ export class PlayerScript implements IScript {
     const player = await this.playerService.create(playerName);
 
     Logger.error(
-      `Your Player id is ${player.getUuid()}. If you will add this value into your env var PLAYER_ID it will be used as permanent player`,
+      `Your Player id is ${player.getUuid()}. If you add this value into your env var PLAYER_ID it will be used as permanent player`,
     );
   }
 

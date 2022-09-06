@@ -42,7 +42,7 @@ export class BattleScript implements IRoomEventScript {
   async run(): Promise<void> {
     const game = this.context.get<Game>('game');
     const hero = game.getHero();
-    Logger.warn(`You are entering the room and see the enemy.`, null, { timestamp: false });
+    Logger.warn(`You are entering the room and see the enemy.`);
     const npc = NpcGenerator.generate();
     Graphic.hero(hero);
     Graphic.hero(npc, { isHero: false });
@@ -58,7 +58,8 @@ export class BattleScript implements IRoomEventScript {
     }
 
     if (!hero.getCharacteristics().health) {
-      Logger.warn(colors.blue(`You are dead. Goodbye\n`));
+      Logger.error(colors.blue(`You are dead. Goodbye looser\n`));
+      Graphic.death();
       await this.eventEmitter.emitAsync(HeroEvent.DEAD, this.context.get<Game>('game'));
       return;
     }
@@ -78,10 +79,10 @@ export class BattleScript implements IRoomEventScript {
         [BATTLE_TURN_INIT]: undefined,
       });
       if (isHeroTurn) {
-        Logger.warn(colors.blue('Your turn\n'), null, { timestamp: false });
+        Logger.warn(colors.blue('Your turn\n'));
         await this.heroTurn(hero, npc);
       } else {
-        Logger.warn(colors.red('NPC turn\n'), null, { timestamp: false });
+        Logger.warn(colors.red('NPC turn\n'));
         await this.npcTurn(hero, npc);
       }
       Graphic.hero(hero);
@@ -104,12 +105,12 @@ export class BattleScript implements IRoomEventScript {
     });
     const result = await this.turn(hero, npc, battleAttack);
 
-    Logger.warn(colors.blue(result), null, { timestamp: false });
+    Logger.warn(colors.blue(result));
   }
 
   private async npcTurn(hero: Hero, npc: Npc): Promise<void> {
     const result = await this.turn(npc, hero, BattleUtils.getNpcAttack(npc));
 
-    Logger.warn(colors.red(result), null, { timestamp: false });
+    Logger.warn(colors.red(result));
   }
 }

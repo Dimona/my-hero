@@ -2,10 +2,6 @@ import { v4 as uuidv4 } from 'uuid';
 import { ProbabilityConfig } from '@common/types';
 
 export class Utils {
-  static getCurrentTimestamp(): number {
-    return new Date().valueOf();
-  }
-
   static generateUuid(): string {
     return uuidv4();
   }
@@ -38,16 +34,5 @@ export class Utils {
 
   static randomIntFromRange(min, max): number {
     return Math.floor(Math.random() * (max - min + 1) + min);
-  }
-
-  static async waitForKey(keyCode): Promise<void> {
-    return new Promise(resolve => {
-      process.stdin.on('data', function (chunk) {
-        if (chunk[0] === keyCode) {
-          resolve();
-          process.stdin.pause();
-        }
-      });
-    });
   }
 }

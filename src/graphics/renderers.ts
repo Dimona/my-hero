@@ -14,7 +14,7 @@ export namespace Graphic {
   export const logo = () =>
     render(
       colors.dim(
-        colors.red(`
+        colors.yellow(`
    ███▄ ▄███▓   ▓█    ██▓          ██░ ██    ▓█████     ██▀███      ▒█████  
   ▓██▒▀█▀ ██▒    ▒██  ██▒         ▓██░ ██▒   ▓█   ▀    ▓██ ▒ ██▒   ▒██▒  ██▒
   ▓██    ▓██░     ▒██ ██░         ▒██▀▀██░   ▒███      ▓██ ░▄█ ▒   ▒██░  ██▒
@@ -25,6 +25,42 @@ export namespace Graphic {
   ░      ░       ▒ ▒ ░░            ░  ░░ ░      ░        ░░   ░    ░ ░ ░ ▒  
         ░       ░ ░               ░  ░  ░      ░  ░      ░            ░ ░  
                 ░ ░                                                                                                 
+`),
+      ),
+    );
+
+  export const death = () =>
+    render(
+      colors.dim(
+        colors.red(`
+  ▓██   ██▓    ▒█████      █    ██          ▓█████▄    ▓█████     ▄▄▄         ▓█████▄ 
+ ▒██  ██▒   ▒██▒  ██▒    ██  ▓██▒         ▒██▀ ██▌   ▓█   ▀    ▒████▄       ▒██▀ ██▌
+  ▒██ ██░   ▒██░  ██▒   ▓██  ▒██░         ░██   █▌   ▒███      ▒██  ▀█▄     ░██   █▌
+  ░ ▐██▓░   ▒██   ██░   ▓▓█  ░██░         ░▓█▄   ▌   ▒▓█  ▄    ░██▄▄▄▄██    ░▓█▄   ▌
+  ░ ██▒▓░   ░ ████▓▒░   ▒▒█████▓          ░▒████▓    ░▒████▒    ▓█   ▓██▒   ░▒████▓ 
+   ██▒▒▒    ░ ▒░▒░▒░    ░▒▓▒ ▒ ▒           ▒▒▓  ▒    ░░ ▒░ ░    ▒▒   ▓▒█░    ▒▒▓  ▒ 
+ ▓██ ░▒░      ░ ▒ ▒░    ░░▒░ ░ ░           ░ ▒  ▒     ░ ░  ░     ▒   ▒▒ ░    ░ ▒  ▒ 
+ ▒ ▒ ░░     ░ ░ ░ ▒      ░░░ ░ ░           ░ ░  ░       ░        ░   ▒       ░ ░  ░ 
+ ░ ░            ░ ░        ░                 ░          ░  ░         ░  ░      ░    
+ ░ ░                                       ░                                 ░                                                                                                       
+`),
+      ),
+    );
+
+  export const win = () =>
+    render(
+      colors.dim(
+        colors.green(`
+▓██   ██▓    ▒█████      █    ██           █     █░    ▒█████      ███▄    █     ▐██▌     ▐██▌     ▐██▌    
+ ▒██  ██▒   ▒██▒  ██▒    ██  ▓██▒         ▓█░ █ ░█░   ▒██▒  ██▒    ██ ▀█   █     ▐██▌     ▐██▌     ▐██▌    
+  ▒██ ██░   ▒██░  ██▒   ▓██  ▒██░         ▒█░ █ ░█    ▒██░  ██▒   ▓██  ▀█ ██▒    ▐██▌     ▐██▌     ▐██▌    
+  ░ ▐██▓░   ▒██   ██░   ▓▓█  ░██░         ░█░ █ ░█    ▒██   ██░   ▓██▒  ▐▌██▒    ▓██▒     ▓██▒     ▓██▒    
+  ░ ██▒▓░   ░ ████▓▒░   ▒▒█████▓          ░░██▒██▓    ░ ████▓▒░   ▒██░   ▓██░    ▒▄▄      ▒▄▄      ▒▄▄     
+   ██▒▒▒    ░ ▒░▒░▒░    ░▒▓▒ ▒ ▒          ░ ▓░▒ ▒     ░ ▒░▒░▒░    ░ ▒░   ▒ ▒     ░▀▀▒     ░▀▀▒     ░▀▀▒    
+ ▓██ ░▒░      ░ ▒ ▒░    ░░▒░ ░ ░            ▒ ░ ░       ░ ▒ ▒░    ░ ░░   ░ ▒░    ░  ░     ░  ░     ░  ░    
+ ▒ ▒ ░░     ░ ░ ░ ▒      ░░░ ░ ░            ░   ░     ░ ░ ░ ▒        ░   ░ ░        ░        ░        ░    
+ ░ ░            ░ ░        ░                  ░           ░ ░              ░     ░        ░        ░       
+ ░ ░                                                                                                                                                                                                              
 `),
       ),
     );
@@ -196,55 +232,41 @@ export namespace Graphic {
       `${isHero ? 'Your hero' : 'Npc'} is ${colors.bold(
         colors.blue(RaceLabel[_npc.getRace()]),
       )} with name ${colors.bold(colors.green(_npc.getName()))}`,
-      null,
-      { timestamp: false },
     );
     const characteristics = _npc.getCharacteristics();
     Logger.verbose(
       `${Utils.toStaticString(CharacteristicLabel.health, COLUMN1_LENGTH)} ${colors.red(
         Utils.toStaticString(`${characteristics.health}/${characteristics.maxHealth}`, COLUMN2_LENGTH),
       )}`,
-      null,
-      { timestamp: false },
     );
     Logger.verbose(
       `${Utils.toStaticString(CharacteristicLabel.manna, COLUMN1_LENGTH)} ${colors.blue(
         Utils.toStaticString(`${characteristics.manna}/${characteristics.maxManna}`, COLUMN2_LENGTH),
       )}`,
-      null,
-      { timestamp: false },
     );
     Logger.verbose(
       `${Utils.toStaticString(CharacteristicLabel.physicalAttack, COLUMN1_LENGTH)} ${Utils.toStaticString(
         String(characteristics.physicalAttack),
         COLUMN2_LENGTH,
       )}`,
-      null,
-      { timestamp: false },
     );
     Logger.verbose(
       `${Utils.toStaticString(CharacteristicLabel.physicalDefense, COLUMN1_LENGTH)} ${Utils.toStaticString(
         String(characteristics.physicalDefense),
         COLUMN2_LENGTH,
       )}`,
-      null,
-      { timestamp: false },
     );
     Logger.verbose(
       `${Utils.toStaticString(CharacteristicLabel.magicalAttack, COLUMN1_LENGTH)} ${Utils.toStaticString(
         String(characteristics.magicalAttack),
         COLUMN2_LENGTH,
       )}`,
-      null,
-      { timestamp: false },
     );
     Logger.verbose(
       `${Utils.toStaticString(CharacteristicLabel.magicalDefense, COLUMN1_LENGTH)} ${Utils.toStaticString(
         String(characteristics.magicalDefense),
         COLUMN2_LENGTH,
       )}`,
-      null,
-      { timestamp: false },
     );
     console.log('\n');
   };

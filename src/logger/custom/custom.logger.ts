@@ -8,13 +8,18 @@ export type LoggerOptions = {
 
 export class CustomLogger extends ConsoleLogger {
   buildMessage(message: any, ...optionalParams: [...any, string?]): string {
-    const [context, options] = optionalParams;
-    const { separator = ' - ', timestamp = true } = options || <LoggerOptions>{};
+    const [, options] = optionalParams;
+    const { separator = ' - ', timestamp = false } = options || <LoggerOptions>{};
 
     return `${timestamp ? `${this.getTimestamp()}${separator}` : ''}${message}`;
   }
 
   log(message: any, ...optionalParams: [...any, string?]): void {
+    const [, options = <LoggerOptions>{}] = optionalParams;
+    if (options.timestamp === undefined) {
+      options.timestamp = true;
+    }
+
     console.info(colors.dim(colors.blue(this.buildMessage(message, ...optionalParams))));
   }
 

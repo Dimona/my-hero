@@ -16,9 +16,9 @@ export class MagicalAttack extends BattleAttackAbstract {
     if (value < 0) {
       value = 0;
     }
-    let result = `Attacked by '${CharacteristicLabel.magicalAttack}'. Value: ${value}`;
     const mannaValue = Math.min(manna, Math.ceil(value / 2));
     value = mannaValue * 2;
+    let result = `Attacked by '${CharacteristicLabel.magicalAttack}'. Value: ${value}`;
     result += `\nAttacker lost '${CharacteristicLabel.manna}'. Value: ${mannaValue}\n`;
 
     this.opponent.applyCharacteristic('health', -value);

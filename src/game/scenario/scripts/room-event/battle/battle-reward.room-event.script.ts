@@ -28,10 +28,8 @@ export class BattleRewardRoomEventScript implements IRoomEventScript {
   ) {}
 
   async run(): Promise<void> {
-    Logger.warn(`You finish bloody battle with strong opponent`, null, { timestamp: false });
-    Logger.warn(`In his deadly hands you find a magical device which will give you award by your choice\n`, null, {
-      timestamp: false,
-    });
+    Logger.warn(`You finish bloody battle with strong opponent`);
+    Logger.warn(`In his deadly hands you find a magical device which will give you award by your choice\n`);
 
     const { roomEventReward } = await this.inquirer.ask<RoomEventRewardParams>(ROOM_EVENT_REWARD_QS, {
       [ROOM_EVENT_REWARD]: undefined,
@@ -48,9 +46,7 @@ export class BattleRewardRoomEventScript implements IRoomEventScript {
       hero.applyCharacteristic('health', BATTLE_REWARD);
     }
 
-    Logger.verbose(`Your characteristic '${roomEventReward}' were updated by value '+${BATTLE_REWARD}'\n`, null, {
-      timestamp: false,
-    });
+    Logger.verbose(`Your characteristic '${roomEventReward}' were updated by value '+${BATTLE_REWARD}'\n`);
 
     Graphic.hero(hero);
 

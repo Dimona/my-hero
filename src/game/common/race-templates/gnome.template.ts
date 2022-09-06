@@ -1,12 +1,12 @@
 import { Characteristics } from '@game/common/common.types';
 
 export const GnomeTemplate: Characteristics = {
-  health: 200,
-  maxHealth: 200,
-  manna: 0,
-  maxManna: 0,
-  physicalAttack: 50,
+  health: 180,
+  maxHealth: 180,
+  manna: 20,
+  maxManna: 20,
+  physicalAttack: 45,
   physicalDefense: 30,
-  magicalAttack: 0,
+  magicalAttack: 5,
   magicalDefense: 0,
 };

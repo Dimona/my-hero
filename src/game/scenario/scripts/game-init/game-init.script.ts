@@ -73,6 +73,6 @@ export class GameInitScript implements IScript {
   }
 
   private exit(): void {
-    Logger.warn('Goodbye', null, { timestamp: false });
+    Logger.warn('Goodbye');
   }
 }

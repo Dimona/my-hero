@@ -71,5 +71,6 @@ export class OutputService {
   async handleGameFinished(payload: Game): Promise<void> {
     Graphic.hero(payload.getHero());
     Logger.log('You successfully passed cave and escaped. Congratulations!!!!!');
+    Graphic.win();
   }
 }

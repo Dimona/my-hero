@@ -28,8 +28,8 @@ export class ManualRewardRoomEventScript implements IRoomEventScript {
   ) {}
 
   async run(): Promise<void> {
-    Logger.warn(`You are entering the room but it's empty`, null, { timestamp: false });
-    Logger.warn(`You found magical device which will give you award by your choice\n`, null, { timestamp: false });
+    Logger.warn(`You are entering the room but it's empty`);
+    Logger.warn(`You found magical device which will give you award by your choice\n`);
 
     const { roomEventReward } = await this.inquirer.ask<RoomEventRewardParams>(ROOM_EVENT_REWARD_QS, {
       [ROOM_EVENT_REWARD]: undefined,
@@ -46,9 +46,7 @@ export class ManualRewardRoomEventScript implements IRoomEventScript {
       hero.applyCharacteristic('health', AUTO_REWARD);
     }
 
-    Logger.verbose(`Your characteristic '${roomEventReward}' were updated by value '+${AUTO_REWARD}'\n`, null, {
-      timestamp: false,
-    });
+    Logger.verbose(`Your characteristic '${roomEventReward}' were updated by value '+${AUTO_REWARD}'\n`);
 
     Graphic.hero(hero);
 

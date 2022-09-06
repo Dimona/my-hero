@@ -74,7 +74,7 @@ export class HeroMoveScript implements IScript {
 
         // Check if already been there
         if (hero.getRoomByLocation(location)) {
-          Logger.warn(`You've been there before\n\n`, null, { timestamp: false });
+          Logger.warn(`You've been there before\n\n`);
         } else {
           await this.enterRoom(location);
         }
@@ -102,17 +102,13 @@ export class HeroMoveScript implements IScript {
   }
 
   private exit(): void {
-    Logger.warn(`Your hero runs away ingloriously. History does not like cowards! Goodbye`, null, {
-      timestamp: false,
-    });
+    Logger.warn(`Your hero runs away ingloriously. History does not like cowards! Goodbye`);
   }
 
   private async enterCave(): Promise<void> {
     const game = this.context.get<Game>('game');
 
-    Logger.warn(`You're standing in front of the entrance to the cave and examine it with powerful gaze\n\n`, null, {
-      timestamp: false,
-    });
+    Logger.warn(`You're standing in front of the entrance to the cave and examine it with powerful gaze\n\n`);
     const { promptedEnter } = await this.inquirer.ask<HeroEnterParams>(HERO_ENTER_QS, {
       [PROMPTED_ENTER]: undefined,
     });
@@ -123,9 +119,7 @@ export class HeroMoveScript implements IScript {
 
     await this.enterRoom(location);
 
-    Logger.verbose(`You've entered to the cave and see the empty room [${location.x}, ${location.y}]\n\n`, null, {
-      timestamp: false,
-    });
+    Logger.verbose(`You've entered to the cave and see the empty room [${location.x}, ${location.y}]\n\n`);
 
     await this.eventEmitter.emitAsync(HeroEvent.UPDATED, game);
 
