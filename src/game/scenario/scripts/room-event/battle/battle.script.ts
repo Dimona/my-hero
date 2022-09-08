@@ -73,8 +73,6 @@ export class BattleScript implements IRoomEventScript {
     let isHeroTurn = true;
 
     while (hero.getCharacteristics().health > 0 && npc.getCharacteristics().health > 0) {
-      console.log(hero.getCharacteristics().health);
-      console.log(npc.getCharacteristics().health);
       await this.inquirer.ask<BattleTurnInitParams>(BATTLE_TURN_INIT_QS, {
         [BATTLE_TURN_INIT]: undefined,
       });
