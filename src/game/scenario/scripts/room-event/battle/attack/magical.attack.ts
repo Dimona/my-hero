@@ -12,7 +12,7 @@ export class MagicalAttack extends BattleAttackAbstract {
     const { magicalAttack, manna } = this.owner.getCharacteristics();
     const dice = BattleUtils.throwDice();
     const { magicalDefense } = this.opponent.getCharacteristics();
-    let value = magicalAttack + dice - magicalDefense;
+    let value = magicalAttack + 2 * dice - magicalDefense;
     if (value < 0) {
       value = 0;
     }

@@ -10,8 +10,12 @@ export class BattleUtils {
   }
 
   static getNpcAttack(npc: ICharacteristicsManager): BattleAttack {
-    const { physicalAttack, magicalAttack } = npc.getCharacteristics();
+    const { physicalAttack, magicalAttack, manna } = npc.getCharacteristics();
     const total = physicalAttack + magicalAttack;
+
+    if (manna === 0) {
+      return BattleAttack.PHYSICAL;
+    }
 
     const config: ProbabilityConfig = [
       {

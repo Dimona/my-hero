@@ -8,7 +8,7 @@ import { Race } from '@game/npc/npc.enums';
 
 export const RaceTemplateConfig: { [key in keyof typeof Race]: Characteristics } = {
   [Race.HUMAN]: HumanTemplate,
-  [Race.ORС]: OrcTemplate,
+  [Race.ORC]: OrcTemplate,
   [Race.ELF]: ElfTemplate,
   [Race.DARK_ELF]: DarkElfTemplate,
   [Race.GNOME]: GnomeTemplate,

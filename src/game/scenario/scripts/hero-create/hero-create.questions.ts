@@ -30,7 +30,7 @@ export class HeroCreateQuestions {
     name: HERO_RACE,
     choices: [
       { name: RaceLabel.HUMAN, value: Race.HUMAN },
-      { name: RaceLabel.ORС, value: Race.ORС },
+      { name: RaceLabel.ORC, value: Race.ORC },
       { name: RaceLabel.GNOME, value: Race.GNOME },
       { name: RaceLabel.ELF, value: Race.ELF },
       { name: RaceLabel.DARK_ELF, value: Race.DARK_ELF },

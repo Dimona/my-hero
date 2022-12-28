@@ -30,7 +30,6 @@ export class HeroMoveQuestions {
     name: HERO_MOVE,
   })
   parseChoicesForHeroMove({ walls, location }: HeroMoveParams): string[] {
-    console.log(location);
     const result = Object.values(HeroMove).reduce((acc, value) => {
       if (!walls[value]) {
         acc.push(value);

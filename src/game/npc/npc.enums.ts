@@ -1,6 +1,6 @@
 export enum RaceLabel {
   HUMAN = 'Human',
-  ORС = 'Orc',
+  ORC = 'Orc',
   ELF = 'Elf',
   DARK_ELF = 'Dark elf',
   GNOME = 'Gnome',
@@ -8,7 +8,7 @@ export enum RaceLabel {
 
 export enum Race {
   HUMAN = 'HUMAN',
-  ORС = 'ORС',
+  ORC = 'ORC',
   ELF = 'ELF',
   DARK_ELF = 'DARK_ELF',
   GNOME = 'GNOME',
